@@ -206,6 +206,8 @@ loans.sort((a, b) => {
 
 loans.reverse();
 
+var _searched = loans;
+
 var base_html = `<div id="loan_list">
     <div class="edge-bg-dark">
         <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
@@ -249,7 +251,7 @@ function sortLoanList(){
 
     console.log(filter_util);
 
-    for (p of loans){
+    for (p of _searched){
         const DateApproved = checkLoanDateApproved(p);
         if (!DateApproved) { continue; }
         if (!checkLoanDateClosed(p)){ continue; }
@@ -432,6 +434,22 @@ $('#county-district-selection').change(() => sortLoanList());
 $('#city-district-selection').change(() => sortLoanList());
 $('#loan-amount-selection').change(() => sortLoanList());
 $('#zipcode-input').keyup(() => sortLoanList());
+
+$("#search-button").click(function(){
+    if ($("#name-search").val() == ""){
+        _searched = loans;
+    } else {
+        var _temp_list= [];
+        for (p in loans){
+            if (loans[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+                _temp_list.push(loans[p]);
+            }
+        }
+        _searched = _temp_list;
+        console.log(_searched);
+    }
+    sortLoanList();
+});
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');

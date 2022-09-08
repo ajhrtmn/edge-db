@@ -138,6 +138,8 @@ tifs.sort((a, b) => {
 
 tifs.reverse();
 
+var _searched = tifs;
+
 var base_html = `<div id="tif_list">
     <div class="edge-bg-dark">
         <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
@@ -174,7 +176,7 @@ function sortTIFList(){
 
     console.log(filter_util);
 
-    for (p of tifs){
+    for (p of _searched){
         const DateApproved = checkTIFDateApproved(p);
         if (!DateApproved) { continue; }
         if (!checkTotalJobs(p)) { continue; }
@@ -324,6 +326,22 @@ $('#mwbe-losb-selection').change(() => sortTIFList());
 $('#total-investment-selection').change(() => sortTIFList());
 $('#tif-amount-selection').change(() => sortTIFList());
 $('#zipcode-input').keyup(() => sortTIFList());
+
+$("#search-button").click(function(){
+    if ($("#name-search").val() == ""){
+        _searched = tifs;
+    } else {
+        var _temp_list= [];
+        for (p in tifs){
+            if (tifs[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+                _temp_list.push(tifs[p]);
+            }
+        }
+        _searched = _temp_list;
+        console.log(_searched);
+    }
+    sortTIFList();
+});
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');

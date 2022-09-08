@@ -349,6 +349,7 @@
 </div>
 
 <script>
+
 pilots.sort((a, b) => {
     const a_year = new Date(a.DateApproved.substring(0, 10)).getFullYear();
     const b_year = new Date(b.DateApproved.substring(0, 10)).getFullYear();
@@ -363,6 +364,8 @@ pilots.sort((a, b) => {
 });
 
 pilots.reverse();
+
+var _searched = pilots;
 
 var base_html = `<div id="pilot_list">
     <div class="edge-bg-dark">
@@ -433,7 +436,7 @@ function sortPilotList(){
 
     console.log(filter_util);
 
-    for (p of pilots){
+    for (p of _searched){
         const DateApproved = checkPilotDateApproved(p);
         if (!DateApproved) { continue; }
         if (!checkPilotDateClosed(p)){ continue; }
@@ -912,6 +915,22 @@ $('#bcr-selection').change(() => sortPilotList());
 $('#zipcode-input').keyup(() => sortPilotList());
 $('#amended-selection').change(() => sortPilotList());
 $('#nmtcd-selection').change(() => sortPilotList());
+
+$("#search-button").click(function(){
+    if ($("#name-search").val() == ""){
+        _searched = pilots;
+    } else {
+        var _temp_list= [];
+        for (p in pilots){
+            if (pilots[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+                _temp_list.push(pilots[p]);
+            }
+        }
+        _searched = _temp_list;
+        console.log(_searched);
+    }
+    sortPilotList();
+});
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
