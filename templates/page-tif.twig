@@ -60,11 +60,13 @@
 				<div class="col-span-5">${tif.ProjectedTotalJobs}</div>
 				<div class="font-bold col-span-7">Projected MWBE Spending:</div>
 				<div class="col-span-5">${formatter.format(tif.ProjectedMWBESpending)}</div>
-			</div>
-			<div class="diag mt-6">
-				<a class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
-			</div>
-		</div>
+			</div>`;
+			if (tif.FileLink) {
+				html += `<div class="diag mt-6">
+					<a href="${tif.FileLink}" class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
+				</div>`;
+			}
+		html += `</div>
 	</div>`;
 
 	html += `<div class="edge-bg-mid relative pb-12">

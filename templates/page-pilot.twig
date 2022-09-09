@@ -95,11 +95,15 @@
 				<div class="col-span-5">123${pilot.ParcelID}45</div>
 				<div class="font-bold col-span-7">City/County District:</div>
 				<div class="col-span-5">${pilot.CityCouncilDistrict}, ${pilot.CountyCommissionDistrict}</div>
-			</div>
-			<div class="diag mt-6">
-				<a class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
-			</div>
-		</div>
+			</div>`;
+
+		if (pilot.FileLink) {
+			html += `<div class="diag mt-6">
+				<a href="${pilot.FileLink}" class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
+			</div>`;
+		}
+
+		html += `</div>
 		<div class="col-span-5 edge-bg-red relative min-h-500">
 			<svg height="500" class="w-full absolute">
 				<polygon points="430,430 200,0 430,0" style="fill:#6E0708;stroke:#6E0708;stroke-width:1" />

@@ -63,11 +63,13 @@
 				<div class="col-span-5">${loan.LoanType}</div>
 				<div class="font-bold col-span-7">City/County District:</div>
 				<div class="col-span-5">${loan.CityCouncilDistrict}, ${loan.CountyCommissionDistrict}</div>
-			</div>
-			<div class="diag mt-6">
-				<a class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
-			</div>
-		</div>
+			</div>`;
+			if (loan.FileLink) {
+				html += `<div class="diag mt-6">
+					<a href="${loan.FileLink}" class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
+				</div>`;
+			}
+		html += `</div>
 	</div>`;
 
 	html += `<div class="edge-bg-mid relative pb-12">
