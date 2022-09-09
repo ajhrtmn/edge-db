@@ -128,6 +128,8 @@ bonds.sort((a, b) => {
 
 bonds.reverse();
 
+var _searched = bonds;
+
 var base_html = `<div id="bond_list">
     <div class="edge-bg-dark">
         <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
@@ -162,7 +164,7 @@ function sortBondList(){
 
     console.log(filter_util);
 
-    for (p of bonds){
+    for (p of _searched){
         const DateApproved = checkBondDateApproved(p);
         if (!DateApproved) { continue;  }
         if (!checkTotalJobs(p)) { continue; }
@@ -296,6 +298,22 @@ $('#total-jobs-selection').change(() => sortBondList());
 $('#bond-amount-selection').change(() => sortBondList());
 $('#total-investment-selection').change(() => sortBondList());
 $('#zipcode-input').keyup(() => sortBondList());
+
+$("#search-button").click(function(){
+    if ($("#name-search").val() == ""){
+        _searched = bonds;
+    } else {
+        var _temp_list= [];
+        for (p in bonds){
+            if (bonds[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+                _temp_list.push(bonds[p]);
+            }
+        }
+        _searched = _temp_list;
+        console.log(_searched);
+    }
+    sortOtherList();
+});
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');

@@ -150,6 +150,8 @@ others.sort((a, b) => {
 
 others.reverse();
 
+var _searched = others;
+
 var base_html = `<div id="other_list">
     <div class="edge-bg-dark">
         <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
@@ -186,7 +188,7 @@ function sortOtherList(){
 
     console.log(filter_util);
 
-    for (p of others){
+    for (p of _searched){
         const DateApproved = checkOtherDateApproved(p);
         if (!DateApproved) { continue; }
         if (!checkOtherType(p)) { continue; }
@@ -359,6 +361,22 @@ $('#total-jobs-selection').change(() => sortOtherList());
 $('#financing-amount-selection').change(() => sortOtherList());
 $('#total-investment-selection').change(() => sortOtherList());
 $('#zipcode-input').keyup(() => sortOtherList());
+
+$("#search-button").click(function(){
+    if ($("#name-search").val() == ""){
+        _searched = others;
+    } else {
+        var _temp_list= [];
+        for (p in others){
+            if (others[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+                _temp_list.push(others[p]);
+            }
+        }
+        _searched = _temp_list;
+        console.log(_searched);
+    }
+    sortOtherList();
+});
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
