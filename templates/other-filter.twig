@@ -152,14 +152,25 @@ others.reverse();
 
 var _searched = others;
 
-var base_html = `<div id="other_list">
-    <div class="edge-bg-dark">
-        <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
-            <div class="col-span-3">Date Approved</div>
-            <div class="col-span-6">Company Name</div>
-            <div class="col-span-3">Financing Amount</div>
-        </div>
-    </div>`;
+var base_html = `<div id="other_list" class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-x-auto">
+        <table class="max-w-screen-xl mx-auto min-col">
+          <thead class="edge-bg-dark text-white diag">
+            <tr>
+              <th scope="col" class="px-6 py-4 text-left">
+                Date Approved
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Company Name
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Financing Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody class="">`;
 
 function Filters(){
     this.date_approved;
@@ -198,24 +209,27 @@ function sortOtherList(){
         if (!checkZipcode(p)) { continue; }
 
         html += `
-        <div class="">
-            <div class="edge-wrapper grid grid-cols-12 gap-6 row-b1">
-                <div class="col-span-3">${DateApproved}</div>
-                <div class="col-span-6 edge-link-gray">
+        <tr class="row-b1">
+                <td class="px-6 py-4">${DateApproved}</td>
+                <td class="px-6 py-4 edge-link-gray max-w-xs">
                     <a class="edge-link-red" href="${URL + p.Id}">
                         ${p.CompanyName}
                     </a>
-                </div>
-                <div class="col-span-3">${formatter.format(p.FinancingAmount)}</div>
-            </div>
-        </div>`;
+                </td>
+                <td class="px-6 py-4">>${formatter.format(p.FinancingAmount)}</td>                
+            </tr>`;
     }
 
     if (html == base_html){
-        html += `<div class="edge-wrapper mt-8">No Results Found</div>`;
+        html += `<tr class="px-6 py-4">No Results Found</tr>`;
     }
     
-    html += '</div>';
+    html += `</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>`;
     document.getElementById('edge_others').innerHTML = html;
 }
 

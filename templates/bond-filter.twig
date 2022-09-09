@@ -130,14 +130,25 @@ bonds.reverse();
 
 var _searched = bonds;
 
-var base_html = `<div id="bond_list">
-    <div class="edge-bg-dark">
-        <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
-            <div class="col-span-4">Date Approved</div>
-            <div class="col-span-4">Company Name</div>
-            <div class="col-span-4">Bond Amount</div>
-        </div>
-    </div>`;
+var base_html = `<div id="bond_list" class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-x-auto">
+        <table class="max-w-screen-xl mx-auto min-col">
+          <thead class="edge-bg-dark text-white diag">
+            <tr>
+              <th scope="col" class="px-6 py-4 text-left">
+                Date Approved
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Company Name
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Bond Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody class="">`;
 
 function Filters(){
     this.date_approved;
@@ -172,26 +183,28 @@ function sortBondList(){
         if (!checkTotalInvestment(p)) { continue; }
         if (!checkZipcode(p)) { continue; }
         html += `
-        <div class="">
-            <div class="edge-wrapper grid grid-cols-12 row-b1">
-                <div class="col-span-4">${DateApproved}</div>
-                <div class="col-span-4 edge-link-gray">
-                    <a class="edge-link-red" href="${URL + p.Id}">
-                        ${p.CompanyName}
-                    </a>
-                </div>
-                <div class="col-span-4">${formatter.format(p.BondAmount)}</div>
-                
-            </div>
-        </div>`;
+        <tr class="row-b1">
+            <td class="px-6 py-4">${DateApproved}</td>
+            <td class="px-6 py-4 edge-link-gray max-w-xs">
+                <a class="edge-link-red" href="${URL + p.Id}">
+                    ${p.CompanyName}
+                </a>
+            </td>
+            <td class="px-6 py-4">${formatter.format(p.BondAmount)}</td>                
+        </tr>`;
         
     }
 
     if (html == base_html){
-        html += `<div class="edge-wrapper mt-8">No Results Found</div>`;
+        html += `<tr class="px-6 py-4">No Results Found</tr>`;
     }
     
-    html += '</div>';
+    html += `</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>`;
     document.getElementById('edge_bonds').innerHTML = html;
 }
 

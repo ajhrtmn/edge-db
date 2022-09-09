@@ -367,17 +367,34 @@ pilots.reverse();
 
 var _searched = pilots;
 
-var base_html = `<div id="pilot_list">
-    <div class="edge-bg-dark">
-        <div class="edge-wrapper grid grid-cols-12 gap-6 text-white">
-            <div class="col-span-2">Date Approved</div>
-            <div class="col-span-3">Company Name</div>
-            <div class="col-span-1">Total Jobs</div>
-            <div class="col-span-2">Projected Investment</div>
-            <div class="col-span-2">Projected MWBE/LOSB Spending</div>
-            <div class="col-span-2">Projected Benefit to Cost Ratio</div>
-        </div>
-    </div>`;
+var base_html = `<div id="pilot_list" class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="inline-block min-w-full">
+      <div class="overflow-x-auto">
+        <table class="max-w-screen-xl mx-auto">
+          <thead class="edge-bg-dark text-white diag">
+            <tr>
+              <th scope="col" class="px-6 py-4 text-left">
+                Date Approved
+              </th>
+              <th scope="col" class="px-6 py-4 text-left max-w-xs">
+                Company Name
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Total Jobs
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Projected Investment
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Projected MWBE/LOSB Spending
+              </th>
+              <th scope="col" class="px-6 py-4 text-left">
+                Projected Benefit to Cost Ratio
+              </th>
+            </tr>
+          </thead>
+          <tbody class="">`;
 
 function Filters(){
     this.date_approved;
@@ -461,28 +478,30 @@ function sortPilotList(){
         if (!checkNewMarketTaxCreditDistrict(p)) { continue; }
 
         html += `
-        <div class="">
-            <div class="edge-wrapper grid grid-cols-12 row-b1">
-                <div class="col-span-2">${DateApproved}</div>
-                <div class="col-span-3 edge-link-gray">
+        <tr class="row-b1">
+                <td class="px-6 py-4">${DateApproved}</td>
+                <td class="px-6 py-4 edge-link-gray max-w-xs">
                     <a class="edge-link-red" href="${URL + p.Id}">
                         ${p.CompanyName}
                     </a>
-                </div>
-                <div class="col-span-1">${p.TotalJobs}</div>
-                <div class="col-span-2">${formatter.format(p.ProjectedCapitalInvestment)}</div>
-                <div class="col-span-2">${formatter.format(parseInt(p.MWBE_LOSBSpendingConstruction) + parseInt(p.MWBE_LOSBSpendingOperations))}</div>
-                <div class="col-span-2">${p.BenefitCostRatio}</div>
-                
-            </div>
-        </div>`;
+                </td>
+                <td class="px-6 py-4">${p.TotalJobs}</td>
+                <td class="px-6 py-4">${formatter.format(p.ProjectedCapitalInvestment)}</td>
+                <td class="px-6 py-4">${formatter.format(parseInt(p.MWBE_LOSBSpendingConstruction) + parseInt(p.MWBE_LOSBSpendingOperations))}</td>
+                <td class="px-6 py-4">${p.BenefitCostRatio}</td>                
+            </tr>`;
     }
 
     if (html == base_html){
-        html += `<div class="edge-wrapper mt-8">No Results Found</div>`;
+        html += `<tr class="px-6 py-4">No Results Found</tr>`;
     }
     
-    html += '</div>';
+    html += `</tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>`;
     document.getElementById('edge_pilots').innerHTML = html;
 }
 

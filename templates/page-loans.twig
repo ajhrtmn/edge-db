@@ -3,15 +3,17 @@
 {% block content %}
 
 <style>
+    /*
     #loan_list > div > div {
         padding: 1rem;
     }
     #total_results > div > div {
         padding: 1rem;
     }
+    */
 </style>
 
-<div class="w-full edge-loans-bg">
+<div class="w-full edge-loans-bg hero">
     <div class="left-offset diag bg-white w-7/12 py-20 flex justify-end">
         <div class="flex flex-col justify-end pr-16">
             <div class="flex gap-6 edge-max-w-500">
@@ -50,7 +52,7 @@
     <h1>
 </div>
 
-<div id="total_results" class="edge-wrapper flex flex-col mb-24">
+<div id="total_results" class="edge-wrapper flex flex-col mb-24 overflow-x-auto">
     Loading...
 </div>
 
@@ -72,24 +74,38 @@
     });
 
     html = `
-        <div class="grid grid-cols-12 font-bold text-base text-center">
-            <div class="col-span-2">Total Jobs</div>
-            <div class="col-span-4">Total Capital Investment</div>
-            <div class="col-span-3">Total Number of Loans</div>
-            <div class="col-span-3">Total Amount of Loans</div>
-        </div>
-        <div class="grid grid-cols-12 text-center">
-            <div class="col-span-2">
-                ${total_jobs.reduce((a, b) => a + b)}
-            </div>
-            <div class="col-span-4">
-                ${formatter.format(total_capital_investment.reduce((a, b) => a + b))}
-            </div>
-            <div class="col-span-3">
-                ${total_number_of_loans}
-            </div>
-            <div class="col-span-3">
-                ${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base text-center">
+                            <tr>
+                            <th scope="col" class="px-6 py-4 text-left">
+                                Total Jobs
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left max-w-xs">
+                                Total Capital Investment
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left">
+                                Total Number of Loans
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left">
+                                Total Amount of Loans
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
+                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${total_number_of_loans}</td>
+                                <td class="px-6 py-4">${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}</td>               
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>`;
 
