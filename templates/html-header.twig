@@ -130,8 +130,17 @@
 			background-repeat: no-repeat;
 		}
 
+
+		@media only screen and (max-width: 767px) {
+			.hero {
+				background-size: auto 100vw;
+				background-position: 100% 100%;
+				background-repeat: no-repeat;
+			}
+		}
+
 		{# EDGE Custom Utilities #}
-		.edge-wrapper { max-width: 1024px; margin: 0px auto; padding: 0px; }
+		.edge-wrapper { max-width: 1200px; margin: 0px auto; padding: 0px; }
 		.edge-max-w-500 { max-width: 500px; }
 		
 		.hdr-logo {
@@ -165,17 +174,15 @@
 
 		.min-h-500 {
 			min-height: 575px;
-		}
-
-        
+		}        
 
 		#top-nav, .top-nav-parent {
 			background-color: #6E0708;
-			padding-top: 20px;
-			padding-bottom: 20px;
 		}
 		#top-nav {
-			width; 90%;
+			width: 100%;
+			padding-top: 20px;
+			padding-bottom: 20px;
 		}
 
         #top-nav > a {
@@ -230,7 +237,50 @@
 			border-bottom: 1px solid #ccc;
 		}
 
+		#filter-tab,
+		#filter-selection-list {
+			display: none;
+		}
+
+		.max-w-screen-xl {
+			max-width: 1200px !important;
+		}
+
+		[id^="edge_"] table:before {
+			content: "";
+			background-color: #3A3B3D;
+			height: 80px;
+			width: 100%;
+			display: block;
+			position: absolute;
+    			margin-left: -97%;
+		}
+			[id^="edge_"] table.min-col:before {
+				margin-top: -56px;
+				height: 56px;
+			}
+
 		{# //////// Responsive #}
+
+		@media (min-width: 1200px) {
+			.max-w-screen-xl {
+				min-width: 1200px;
+			}
+		}
+		@media (min-width: 854px) and (max-width: 1070px) {
+			#pilot_list.flex table:before {
+				margin-top: -104px;
+			}
+		}
+
+		@media (min-width: 1024px) {						
+			[id^="edge_"] table:before {
+				margin-top: -80px;
+			}
+			.flex.flex-col.justify-end.pr-16 {
+				padding-right: 11rem;
+			}
+		}
 
 		@media only screen and (max-width: 1115px) and (min-width: 768px) {
 			.left-offset {
@@ -244,9 +294,28 @@
 				max-width: 375px;
 			}
 		}
-		@media only screen and (max-width: 980px) {
+
+		@media (max-width: 1280px) {			
+			#top-nav {
+				width: 90%;
+			}
+		}
+
+		@media (max-width: 1026px) {						
+			[id^="edge_"] table:before {
+				margin-top: -128px;
+			}
+			[id^="edge_"] table.min-col:before,
+			#loan_list.flex table.min-col:before {
+				margin-top: -80px;
+			}
+		}
+		@media only screen and (max-width: 1000px) {
 			.header .edge-bg-lite {
 				background-color: transparent;
+			}
+			.desktop {
+				justify-content: space-between;
 			}
 		}
 		@media only screen and (max-width: 485px) {
@@ -263,17 +332,15 @@
 			#menu.burger > li > span {
 				display: none;
 			}
-		}
-
-		.top-nav-parent {
-			display: none;
-			
+			#top-nav {
+				flex-wrap: wrap;
+				justify-content: center;
+			}
 		}
 
 		@media only screen and (min-width: 750px) {
 			.top-nav-parent {
 				display: grid;
-				justify-content: end;
 			}
 		}
 	}

@@ -13,7 +13,7 @@
 		
 		<div>
 			<div class="top-nav-parent">
-				<div id="top-nav" class="edge-wrapper flex justify-end gap-4">
+				<div id="top-nav" class="edge-wrapper flex justify-end gap-4 pt-8">
 					{% for items in {'items': menuTopNav.get_items} %}
 						{% for item in items %}
 								<a class="py-2 px-4">
@@ -27,7 +27,7 @@
 			<header class="header" >
 				{% block header %}
 					<div class="wrapper edge-bg-lite px-6">
-						<div class="desktop edge-wrapper flex flex-row justify-between gap-6 ">
+						<div class="desktop edge-wrapper flex flex-row gap-20 ">
 							<h1 class="hdr-logo bg-white pt-8 pr-24 pb-2 diag" role="banner">
 								<a class="hdr-logo-link" href="{{site.url}}" rel="home">
 								{% if custom_logo_url %}
