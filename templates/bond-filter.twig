@@ -19,7 +19,7 @@
         transform: skewX(11deg);
     }
     #filter-selection-list {
-        position: absolute;
+        position: static;
         top: 600px;
         max-height: 82vh;
         right: -300px;
@@ -325,14 +325,20 @@ $("#search-button").click(function(){
         _searched = _temp_list;
         console.log(_searched);
     }
-    sortOtherList();
+    sortBondList();
+    if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
+        $("html").animate({scrollTop: 550}, 400);
+    }
 });
+
+var toggle = "static";
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
     console.log();
     if ( t.html().trim() == "arrow_right" ) {
         $(this).find('span').html('arrow_left');
+        toggle = "absolute";
         $("#filter-selection-list").animate(
             { right: "+=300" }, 400, function() {
             // Animation complete.
@@ -346,8 +352,12 @@ $("#filter-tab").click(function(){
             }, 200, function() {
             // Animation complete.
         });
+        if ($(window).scrollTop() < 550) {
+            $("html").animate({scrollTop: 550}, 400);
+        }
     } else if ( t.html().trim() == "arrow_left" ) {
         $(this).find('span').html('arrow_right');
+        toggle = "static";
         $("#filter-selection-list").animate(
             { right: "-=300" }, 400, function() {
             // Animation complete.
@@ -379,7 +389,7 @@ $(window).scroll(function(){
 
   if ($(window).scrollTop() < 550) {
     $("#filter-tab").css("position","absolute");
-    $("#filter-selection-list").css("position","absolute");
+    $("#filter-selection-list").css("position",toggle);
     $("#filter-tab").css("top","580px");
     $("#filter-selection-list").css("top","600px");
   }
