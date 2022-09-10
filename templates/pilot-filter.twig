@@ -349,7 +349,6 @@
 </div>
 
 <script>
-
 pilots.sort((a, b) => {
     const a_year = new Date(a.DateApproved.substring(0, 10)).getFullYear();
     const b_year = new Date(b.DateApproved.substring(0, 10)).getFullYear();
@@ -366,6 +365,104 @@ pilots.sort((a, b) => {
 pilots.reverse();
 
 var _searched = pilots;
+var _filtered = pilots;
+
+function impactUpdate(){
+    const total_jobs = _filtered.map(function (p) {
+        return parseInt(p.TotalJobs);
+    });
+
+    const total_capital_investment = _filtered.map(function (p) {
+        return parseInt(p.ProjectedCapitalInvestment);
+    });
+
+    const total_projected_spending = _filtered.map(function (p) {
+        return parseInt(p.MWBE_LOSBSpendingConstruction) + parseInt(p.MWBE_LOSBSpendingOperations);
+    });
+
+    const avg_wage_per_job = _filtered.map(function (p) {
+        return parseInt(p.WagesDirect) + parseInt(p.WagesIndirect);
+    });
+
+    const total_projected_tax_revenue = _filtered.map(function (p) {
+        return parseInt(p.TotalNewTaxRevenues);
+    });
+
+    const total_projected_tax_abated = _filtered.map(function (p) {
+        return parseInt(p.ProjectedTaxesAbatedCity) + parseInt(p.ProjectedTaxesAbatedCounty);
+    });
+
+    const total_number_of_pilots = _filtered.length;
+
+    html = `<div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base text-center">
+                            <tr>
+                            <th scope="col" class="px-6 py-4">
+                                Total Jobs
+                            </th>
+                            <th scope="col" class="px-6 py-4 max-w-xs">
+                                Total Capital Investment
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Projected MWBE/LOSB Spending
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Average Wage Per Job
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
+                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${formatter.format(total_projected_spending.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${formatter.format((avg_wage_per_job.reduce((a, b) => a + b)) / total_number_of_pilots)}</td>               
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        html += `<div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base">
+                            <tr>
+                            <th scope="col" class="px-6 py-4">
+                                Total Projected Tax Revenue
+                            </th>
+                            <th scope="col" class="px-6 py-4 max-w-xs">
+                                Total Projected Tax Abated
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Projected Cost Ratio
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${formatter.format(total_projected_tax_revenue.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${formatter.format(total_projected_tax_abated.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${Math.round(100 * (total_projected_tax_revenue.reduce((a, b) => a + b)) / total_projected_tax_abated.reduce((a, b) => a + b)) / 100}</td>            
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.getElementById('total_results').innerHTML = html;
+}
+impactUpdate();
 
 var base_html = `<div id="pilot_list" class="flex flex-col">
   <div class="overflow-x-auto">
@@ -451,6 +548,8 @@ function sortPilotList(){
     html = base_html;
     getFilters();
 
+    var temp_list_filtered = [];
+
     console.log(filter_util);
 
     for (p of _searched){
@@ -477,6 +576,8 @@ function sortPilotList(){
         if (!checkAmended(p)) { continue; }
         if (!checkNewMarketTaxCreditDistrict(p)) { continue; }
 
+        temp_list_filtered.push(p);
+
         html += `
         <tr class="row-b1">
                 <td class="px-6 py-4">${DateApproved}</td>
@@ -492,6 +593,8 @@ function sortPilotList(){
             </tr>`;
     }
 
+    
+
     if (html == base_html){
         html += `<tr class="px-6 py-4">No Results Found</tr>`;
     }
@@ -503,6 +606,10 @@ function sortPilotList(){
   </div>
 </div>`;
     document.getElementById('edge_pilots').innerHTML = html;
+    if (temp_list_filtered.length != 0){
+        _filtered = temp_list_filtered;
+        impactUpdate();
+    }
 }
 
 function checkPilotDateApproved(_p){

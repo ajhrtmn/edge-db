@@ -207,6 +207,63 @@ loans.sort((a, b) => {
 loans.reverse();
 
 var _searched = loans;
+var _filtered = loans;
+
+function impactUpdate(){
+    var loan_html = "";
+    const total_jobs = _filtered.map(function (l) {
+        return parseInt(l.ProjectedNewJobs);
+    });
+
+    const total_capital_investment = _filtered.map(function (l) {
+        return parseInt(l.TotalProjectedCapitalInvestment);
+    });
+
+    const total_number_of_loans = _filtered.length;
+
+    const total_amount_of_loans = _filtered.map(function (l) {
+        return parseInt(l.LoanAmount);
+    });
+
+    loan_html = `
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base text-center">
+                            <tr>
+                            <th scope="col" class="px-6 py-4">
+                                Total Jobs
+                            </th>
+                            <th scope="col" class="px-6 py-4 max-w-xs">
+                                Total Capital Investment
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Number of Loans
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Amount of Loans
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
+                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${total_number_of_loans}</td>
+                                <td class="px-6 py-4">${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}</td>               
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.getElementById('total_results').innerHTML = loan_html;
+}
+impactUpdate();
 
 var base_html = `<div id="loan_list" class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -262,6 +319,8 @@ function sortLoanList(){
     html = base_html;
     getFilters();
 
+    var temp_list_filtered = [];
+
     console.log(filter_util);
 
     for (p of _searched){
@@ -275,6 +334,8 @@ function sortLoanList(){
         if (!checkCityDistrict(p)) { continue; }
         if (!checkLoanAmount(p)) { continue; }
         if (!checkZipcode(p)) { continue; }
+
+        temp_list_filtered.push(p);
 
         html += `
         <tr class="row-b1">
@@ -291,6 +352,11 @@ function sortLoanList(){
 
     if (html == base_html){
         html += `<tr class="px-6 py-4">No Results Found</tr>`;
+    }
+
+    if (temp_list_filtered.length != 0){
+        _filtered = temp_list_filtered;
+        impactUpdate();
     }
     
     html += `</tbody>

@@ -151,6 +151,48 @@ others.sort((a, b) => {
 others.reverse();
 
 var _searched = others;
+var _filtered = others;
+
+function impactFilters() {
+    const total_jobs = _filtered.map(function (o) {
+        return parseInt(o.ProjectedTotalJobs);
+    });
+
+    const total_capital_investment = _filtered.map(function (o) {
+        return parseInt(o.TotalInvestment);
+    });
+
+    const total_number_of_others = _filtered.length;
+
+    const total_amount_of_others = _filtered.map(function (o) {
+        return parseInt(o.FinancingAmount);
+    });
+
+    var other_html = `
+        <div class="grid grid-cols-12 bebas">
+            <div class="col-span-2">Total Jobs</div>
+            <div class="col-span-4">Total Capital Investment</div>
+            <div class="col-span-3">Total Number of Others</div>
+            <div class="col-span-3">Total Amount of Others</div>
+        </div>
+        <div class="grid grid-cols-12">
+            <div class="col-span-2">
+                ${total_jobs.reduce((a, b) => a + b)}
+            </div>
+            <div class="col-span-4">
+                ${formatter.format(total_capital_investment.reduce((a, b) => a + b))}
+            </div>
+            <div class="col-span-3">
+                ${total_number_of_others}
+            </div>
+            <div class="col-span-3">
+                ${formatter.format(total_amount_of_others.reduce((a, b) => a + b))}
+            </div>
+        </div>`;
+
+    document.getElementById('total_results').innerHTML = other_html;
+}
+impactFilters();
 
 var base_html = `<div id="other_list" class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -196,6 +238,7 @@ function getFilters(){
 function sortOtherList(){
     html = base_html;
     getFilters();
+    var temp_list_filtered = [];
 
     console.log(filter_util);
 
@@ -207,6 +250,8 @@ function sortOtherList(){
         if (!checkFinancingAmount(p)) { continue; }
         if (!checkTotalInvestment(p)) { continue; }
         if (!checkZipcode(p)) { continue; }
+
+        temp_list_filtered.push(p);
 
         html += `
         <tr class="row-b1">
@@ -222,6 +267,11 @@ function sortOtherList(){
 
     if (html == base_html){
         html += `<tr class="px-6 py-4">No Results Found</tr>`;
+    }
+
+    if (temp_list_filtered.length != 0){
+        _filtered = temp_list_filtered;
+        impactFilters();
     }
     
     html += `</tbody>
