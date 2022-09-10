@@ -139,7 +139,7 @@ tifs.sort((a, b) => {
 tifs.reverse();
 
 var _searched = tifs;
-var _filtered = tifs;
+var _filtered = _searched;
 
 function impactFilter() {
     const total_jobs = _filtered.map(function (t) {
@@ -401,9 +401,11 @@ $("#search-button").click(function(){
             }
         }
         _searched = _temp_list;
+        _filtered = _temp_list;
         console.log(_searched);
     }
     sortTIFList();
+    impactFilter();
     if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
         $("html").animate({scrollTop: 550}, 400);
     }

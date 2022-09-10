@@ -151,7 +151,7 @@ others.sort((a, b) => {
 others.reverse();
 
 var _searched = others;
-var _filtered = others;
+var _filtered = _searched;
 
 function impactFilters() {
     const total_jobs = _filtered.map(function (o) {
@@ -437,9 +437,11 @@ $("#search-button").click(function(){
             }
         }
         _searched = _temp_list;
+        _filtered = _temp_list;
         console.log(_searched);
     }
     sortOtherList();
+    impactFilters();
     if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
         $("html").animate({scrollTop: 550}, 400);
     }

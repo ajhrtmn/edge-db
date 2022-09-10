@@ -207,7 +207,7 @@ loans.sort((a, b) => {
 loans.reverse();
 
 var _searched = loans;
-var _filtered = loans;
+var _filtered = _searched;
 
 function impactUpdate(){
     var loan_html = "";
@@ -536,9 +536,11 @@ $("#search-button").click(function(){
             }
         }
         _searched = _temp_list;
+        _filtered = _temp_list;
         console.log(_searched);
     }
     sortLoanList();
+    impactFilter();
     if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
         $("html").animate({scrollTop: 550}, 400);
     }
