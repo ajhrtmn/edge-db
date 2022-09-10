@@ -374,40 +374,18 @@
 		const MAIN_SITE_URL = 'https://edge.saucebuild.com/wp';
 		const SITE_URL = '{{ site.url }}';	
 
-		console.log({{edge_bonds}});
+		{# console.log({{edge_bonds}});
 		console.log({{edge_tifs}});
 		console.log({{edge_others}});
 		console.log({{edge_loan_program}}); 
-		console.log({{edge_pilot_program}});
+		console.log({{edge_pilot_program}}); #}
 
-		// Filter By:
-		// Projected New Jobs: Low - High
-		// Projected Retained Jobs: Low - High
-		// Projected Total Jobs: Low - High
-		// Projected MWBE/LOSB Spending: Low - High
-		// Average Payroll of Projected New Jobs: Low - High
-		// Average Payroll of Retained Jobs: Low - High
-		// Projected Investment: Low - High
-		// Projected Investment(Real Property): Low - High
-		// Projected Investment(Personal Property): Low - High
-		// Pilot Type: Dropdowm
-		// Year Approved: Dropdown
-		// Project Industry Classification: Dropdown
-
-		// For Pilots Specifically.
-		// Date Approved: Date Range
-		// Date Closed: Date Range
-		// Project Type: Dropdown
-		// Industry Classification: Dropdown
-		// Project Status: Dropdown
-		// County Commission District: Dropdown
-		// City Council District: Dropdown
-		// Benefit Cost Ratio: Low - High
-		// Address: Text Fields?
-		// Amended?: Chackbox
-		// Total Investment For Items shown, as well as jobs and total MWBE spending
-				function filterList(data_list){
-
-		}
+		$(document).ready(function() {
+			$("#name-search").on('keypress',function(e) {
+				if(e.which == 13) {
+					$('#search-button').click();
+				}
+			});
+		});
 	</script>
     {{function('wp_head')}}
