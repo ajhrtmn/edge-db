@@ -19,7 +19,7 @@
         transform: skewX(11deg);
     }
     #filter-selection-list {
-        position: absolute;
+        position: static;
         top: 600px;
         max-height: 82vh;
         right: -300px;
@@ -129,6 +129,62 @@ bonds.sort((a, b) => {
 bonds.reverse();
 
 var _searched = bonds;
+var _filtered = _searched;
+
+function impactFilter(){
+    const total_jobs = _filtered.map(function (b) {
+        return parseInt(b.ProjectedTotalJobs);
+    });
+
+    const total_capital_investment = _filtered.map(function (b) {
+        return parseInt(b.TotalInvestment);
+    });
+
+    const total_number_of_bonds = _filtered.length;
+
+    const total_amount_of_bonds = _filtered.map(function (b) {
+        return parseInt(b.BondAmount);
+    });
+
+    var bond_html = `
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base text-center">
+                            <tr>
+                            <th scope="col" class="px-6 py-4">
+                                Total Jobs
+                            </th>
+                            <th scope="col" class="px-6 py-4 max-w-xs">
+                                Total Capital Investment
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Number of Bonds
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Amount of Bonds
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
+                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${total_number_of_bonds}</td>
+                                <td class="px-6 py-4">${formatter.format(total_amount_of_bonds.reduce((a, b) => a + b))}</td>               
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.getElementById('total_results').innerHTML = bond_html;
+};
+impactFilter();
 
 var base_html = `<div id="bond_list" class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -173,6 +229,8 @@ function sortBondList(){
     html = base_html;
     getFilters();
 
+    var temp_list_filtered = [];
+
     console.log(filter_util);
 
     for (p of _searched){
@@ -182,6 +240,9 @@ function sortBondList(){
         if (!checkBondAmount(p)) { continue; }
         if (!checkTotalInvestment(p)) { continue; }
         if (!checkZipcode(p)) { continue; }
+
+        temp_list_filtered.push(p);
+
         html += `
         <tr class="row-b1">
             <td class="px-6 py-4">${DateApproved}</td>
@@ -197,6 +258,11 @@ function sortBondList(){
 
     if (html == base_html){
         html += `<tr class="px-6 py-4">No Results Found</tr>`;
+    }
+
+    if (temp_list_filtered.length != 0){
+        _filtered = temp_list_filtered;
+        impactFilter();
     }
     
     html += `</tbody>
@@ -323,16 +389,24 @@ $("#search-button").click(function(){
             }
         }
         _searched = _temp_list;
+        _filtered = _temp_list;
         console.log(_searched);
     }
-    sortOtherList();
+    sortBondList();
+    impactFilter();
+    if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
+        $("html").animate({scrollTop: 550}, 400);
+    }
 });
+
+var toggle = "static";
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
     console.log();
     if ( t.html().trim() == "arrow_right" ) {
         $(this).find('span').html('arrow_left');
+        toggle = "absolute";
         $("#filter-selection-list").animate(
             { right: "+=300" }, 400, function() {
             // Animation complete.
@@ -346,8 +420,12 @@ $("#filter-tab").click(function(){
             }, 200, function() {
             // Animation complete.
         });
+        if ($(window).scrollTop() < 550) {
+            $("html").animate({scrollTop: 550}, 400);
+        }
     } else if ( t.html().trim() == "arrow_left" ) {
         $(this).find('span').html('arrow_right');
+        toggle = "static";
         $("#filter-selection-list").animate(
             { right: "-=300" }, 400, function() {
             // Animation complete.
@@ -379,7 +457,7 @@ $(window).scroll(function(){
 
   if ($(window).scrollTop() < 550) {
     $("#filter-tab").css("position","absolute");
-    $("#filter-selection-list").css("position","absolute");
+    $("#filter-selection-list").css("position",toggle);
     $("#filter-tab").css("top","580px");
     $("#filter-selection-list").css("top","600px");
   }

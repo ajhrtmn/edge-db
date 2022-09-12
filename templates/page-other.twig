@@ -60,11 +60,13 @@
 				<div class="col-span-5">${other.ProjectedTotalJobs}</div>
 				<div class="font-bold col-span-7">Total Investment:</div>
 				<div class="col-span-5">${formatter.format(other.TotalInvestment)}</div>
-			</div>
-			<div class="diag mt-6">
-				<a class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
-			</div>
-		</div>
+			</div>`;
+			if (other.FileLink) {
+				html += `<div class="diag mt-6">
+					<a href="${other.FileLink}" class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
+				</div>`;
+			}
+		html += `</div>
 	</div>`;
 
 	html += `<div class="edge-bg-mid relative pb-12">

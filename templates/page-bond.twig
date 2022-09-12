@@ -60,11 +60,13 @@
 				<div class="col-span-5">${bond.ProjectedTotalJobs}</div>
 				<div class="font-bold col-span-7">Total Investment:</div>
 				<div class="col-span-5">${formatter.format(bond.TotalInvestment)}</div>
-			</div>
-			<div class="diag mt-6">
-				<a class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
-			</div>
-		</div>
+			</div>`;
+			if (bond.FileLink) {
+				html += `<div class="diag mt-6">
+					<a href="${bond.FileLink}" class="edge-btn-red py-3 px-8 text-xs text-white">View Project Documents</a>
+				</div>`;
+			}
+		html += `</div>
 	</div>`;
 
 	html += `<div class="edge-bg-mid relative pb-12">

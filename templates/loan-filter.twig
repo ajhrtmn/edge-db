@@ -19,7 +19,7 @@
         transform: skewX(11deg);
     }
     #filter-selection-list {
-        position: absolute;
+        position: static;
         top: 600px;
         max-height: 82vh;
         right: -300px;
@@ -207,6 +207,63 @@ loans.sort((a, b) => {
 loans.reverse();
 
 var _searched = loans;
+var _filtered = _searched;
+
+function impactUpdate(){
+    var loan_html = "";
+    const total_jobs = _filtered.map(function (l) {
+        return parseInt(l.ProjectedNewJobs);
+    });
+
+    const total_capital_investment = _filtered.map(function (l) {
+        return parseInt(l.TotalProjectedCapitalInvestment);
+    });
+
+    const total_number_of_loans = _filtered.length;
+
+    const total_amount_of_loans = _filtered.map(function (l) {
+        return parseInt(l.LoanAmount);
+    });
+
+    loan_html = `
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-x-auto">
+                        <table class="max-w-screen-xl mx-auto">
+                        <thead class="text-base text-center">
+                            <tr>
+                            <th scope="col" class="px-6 py-4">
+                                Total Jobs
+                            </th>
+                            <th scope="col" class="px-6 py-4 max-w-xs">
+                                Total Capital Investment
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Number of Loans
+                            </th>
+                            <th scope="col" class="px-6 py-4">
+                                Total Amount of Loans
+                            </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr class="row-b1">
+                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
+                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${total_number_of_loans}</td>
+                                <td class="px-6 py-4">${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}</td>               
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+    document.getElementById('total_results').innerHTML = loan_html;
+}
+impactUpdate();
 
 var base_html = `<div id="loan_list" class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -262,6 +319,8 @@ function sortLoanList(){
     html = base_html;
     getFilters();
 
+    var temp_list_filtered = [];
+
     console.log(filter_util);
 
     for (p of _searched){
@@ -275,6 +334,8 @@ function sortLoanList(){
         if (!checkCityDistrict(p)) { continue; }
         if (!checkLoanAmount(p)) { continue; }
         if (!checkZipcode(p)) { continue; }
+
+        temp_list_filtered.push(p);
 
         html += `
         <tr class="row-b1">
@@ -291,6 +352,11 @@ function sortLoanList(){
 
     if (html == base_html){
         html += `<tr class="px-6 py-4">No Results Found</tr>`;
+    }
+
+    if (temp_list_filtered.length != 0){
+        _filtered = temp_list_filtered;
+        impactUpdate();
     }
     
     html += `</tbody>
@@ -385,10 +451,18 @@ function checkNewJobs(_p){
     }
 }
 function checkCountyDistrict(_p){
-    return _p.CountyCommissionDistrict.includes(filter_util.county_district);
+    if (parseInt(_p.CountyCommissionDistrict) == filter_util.county_district || filter_util.county_district == ""){
+        return true;
+    } else {
+        return false;
+    }
 }
 function checkCityDistrict(_p){
-    return _p.CityCouncilDistrict.includes(filter_util.city_district);
+    if (parseInt(_p.CityCouncilDistrict) == filter_util.city_district || filter_util.city_district == ""){
+        return true;
+    } else {
+        return false;
+    }
 }
 function checkLoanAmount(_p){
     var p_total = parseInt(_p.LoanAmount);
@@ -462,16 +536,24 @@ $("#search-button").click(function(){
             }
         }
         _searched = _temp_list;
+        _filtered = _temp_list;
         console.log(_searched);
     }
     sortLoanList();
+    impactFilter();
+    if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
+        $("html").animate({scrollTop: 550}, 400);
+    }
 });
+
+var toggle = "static";
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
     console.log();
     if ( t.html().trim() == "arrow_right" ) {
         $(this).find('span').html('arrow_left');
+        toggle = "absolute";
         $("#filter-selection-list").animate(
             { right: "+=300" }, 400, function() {
             // Animation complete.
@@ -485,8 +567,12 @@ $("#filter-tab").click(function(){
             }, 200, function() {
             // Animation complete.
         });
+        if ($(window).scrollTop() < 550) {
+            $("html").animate({scrollTop: 550}, 400);
+        }
     } else if ( t.html().trim() == "arrow_left" ) {
         $(this).find('span').html('arrow_right');
+        toggle = "static";
         $("#filter-selection-list").animate(
             { right: "-=300" }, 400, function() {
             // Animation complete.
@@ -518,7 +604,7 @@ $(window).scroll(function(){
 
   if ($(window).scrollTop() < 550) {
     $("#filter-tab").css("position","absolute");
-    $("#filter-selection-list").css("position","absolute");
+    $("#filter-selection-list").css("position",toggle);
     $("#filter-tab").css("top","580px");
     $("#filter-selection-list").css("top","600px");
   }

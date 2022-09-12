@@ -59,62 +59,9 @@
 <script>
     const URL = SITE_URL + '/loans/loan/';
 
-    const total_jobs = loans.map(function (l) {
-        return parseInt(l.ProjectedNewJobs);
-    });
-
-    const total_capital_investment = loans.map(function (l) {
-        return parseInt(l.TotalProjectedCapitalInvestment);
-    });
-
-    const total_number_of_loans = loans.length;
-
-    const total_amount_of_loans = loans.map(function (l) {
-        return parseInt(l.LoanAmount);
-    });
-
-    html = `
-        <div class="flex flex-col">
-            <div class="overflow-x-auto">
-                <div class="inline-block min-w-full">
-                    <div class="overflow-x-auto">
-                        <table class="max-w-screen-xl mx-auto">
-                        <thead class="text-base text-center">
-                            <tr>
-                            <th scope="col" class="px-6 py-4 text-left">
-                                Total Jobs
-                            </th>
-                            <th scope="col" class="px-6 py-4 text-left max-w-xs">
-                                Total Capital Investment
-                            </th>
-                            <th scope="col" class="px-6 py-4 text-left">
-                                Total Number of Loans
-                            </th>
-                            <th scope="col" class="px-6 py-4 text-left">
-                                Total Amount of Loans
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr class="row-b1">
-                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
-                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${total_number_of_loans}</td>
-                                <td class="px-6 py-4">${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}</td>               
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-
-    document.getElementById('total_results').innerHTML = html;
-
     $(document).ready(function() {
         $('#menu-4').css('color', '#BF021C');
     });
-
 </script>
 
 {% include 'loan-filter.twig' %}
