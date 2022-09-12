@@ -154,6 +154,7 @@ var _searched = others;
 var _filtered = _searched;
 
 function impactFilters() {
+    
     const total_jobs = _filtered.map(function (o) {
         return parseInt(o.ProjectedTotalJobs);
     });
@@ -168,6 +169,15 @@ function impactFilters() {
         return parseInt(o.FinancingAmount);
     });
 
+    var _total_jobs;
+    if (total_jobs.length > 0) { _total_jobs = total_jobs.reduce((a, b) => a + b)} else {_total_jobs = 0}
+
+    var _total_capital_investment;
+    if (total_capital_investment.length > 0) { _total_capital_investment = total_capital_investment.reduce((a, b) => a + b)} else {_total_capital_investment = 0}
+
+    var _total_amount_of_others;
+    if (total_amount_of_others.length > 0) { _total_amount_of_others = total_amount_of_others.reduce((a, b) => a + b)} else {_total_amount_of_others = 0}
+
     var other_html = `
         <div class="grid grid-cols-12 bebas">
             <div class="col-span-2">Total Jobs</div>
@@ -177,19 +187,18 @@ function impactFilters() {
         </div>
         <div class="grid grid-cols-12">
             <div class="col-span-2">
-                ${total_jobs.reduce((a, b) => a + b)}
+                ${_total_jobs}
             </div>
             <div class="col-span-4">
-                ${formatter.format(total_capital_investment.reduce((a, b) => a + b))}
+                ${formatter.format(_total_capital_investment)}
             </div>
             <div class="col-span-3">
                 ${total_number_of_others}
             </div>
             <div class="col-span-3">
-                ${formatter.format(total_amount_of_others.reduce((a, b) => a + b))}
+                ${formatter.format(_total_amount_of_others)}
             </div>
         </div>`;
-
     document.getElementById('total_results').innerHTML = other_html;
 }
 impactFilters();
@@ -261,25 +270,25 @@ function sortOtherList(){
                         ${p.CompanyName}
                     </a>
                 </td>
-                <td class="px-6 py-4">>${formatter.format(p.FinancingAmount)}</td>                
+                <td class="px-6 py-4">${formatter.format(p.FinancingAmount)}</td>                
             </tr>`;
-    }
-
-    if (html == base_html){
-        html += `<tr class="px-6 py-4">No Results Found</tr>`;
     }
 
     if (temp_list_filtered.length != 0){
         _filtered = temp_list_filtered;
         impactFilters();
     }
-    
-    html += `</tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>`;
+        
+            html += `</tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>`;
+
+    if (html == base_html || temp_list_filtered.length == 0 || _searched.length == 0){
+        html = `<div class="edge-wrapper px-6 py-4">No Results Found</div>`;
+    }
     document.getElementById('edge_others').innerHTML = html;
 }
 

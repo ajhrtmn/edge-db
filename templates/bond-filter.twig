@@ -146,6 +146,15 @@ function impactFilter(){
         return parseInt(b.BondAmount);
     });
 
+    var _total_jobs;
+    if (total_jobs.length > 0) { _total_jobs = total_jobs.reduce((a, b) => a + b)} else {_total_jobs = 0}
+
+    var _total_capital_investment;
+    if (total_capital_investment.length > 0) { _total_capital_investment = total_capital_investment.reduce((a, b) => a + b)} else {_total_capital_investment = 0}
+
+    var _total_amount_of_bonds;
+    if (total_amount_of_bonds.length > 0) { _total_amount_of_bonds = total_amount_of_bonds.reduce((a, b) => a + b)} else {_total_amount_of_bonds = 0}
+
     var bond_html = `
         <div class="flex flex-col">
             <div class="overflow-x-auto">
@@ -170,10 +179,10 @@ function impactFilter(){
                         </thead>
                         <tbody class="text-center">
                             <tr class="row-b1">
-                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
-                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${_total_jobs}</td>
+                                <td class="px-6 py-4">${formatter.format(_total_capital_investment)}</td>
                                 <td class="px-6 py-4">${total_number_of_bonds}</td>
-                                <td class="px-6 py-4">${formatter.format(total_amount_of_bonds.reduce((a, b) => a + b))}</td>               
+                                <td class="px-6 py-4">${formatter.format(_total_amount_of_bonds)}</td>               
                             </tr>
                         </tbody>
                         </table>
@@ -256,21 +265,22 @@ function sortBondList(){
         
     }
 
-    if (html == base_html){
-        html += `<tr class="px-6 py-4">No Results Found</tr>`;
-    }
-
     if (temp_list_filtered.length != 0){
         _filtered = temp_list_filtered;
         impactFilter();
     }
     
-    html += `</tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>`;
+            html += `</tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>`;
+
+    if (html == base_html || temp_list_filtered.length == 0 || _searched.length == 0){
+        html = `<div class="edge-wrapper px-6 py-4">No Results Found</div>`;
+    }
+
     document.getElementById('edge_bonds').innerHTML = html;
 }
 

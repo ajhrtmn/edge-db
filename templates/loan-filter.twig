@@ -225,6 +225,15 @@ function impactUpdate(){
         return parseInt(l.LoanAmount);
     });
 
+    var _total_jobs;
+    if (total_jobs.length > 0) { _total_jobs = total_jobs.reduce((a, b) => a + b)} else {_total_jobs = 0}
+
+    var _total_capital_investment;
+    if (total_capital_investment.length > 0) { _total_capital_investment = total_capital_investment.reduce((a, b) => a + b)} else {_total_capital_investment = 0}
+
+    var _total_amount_of_loans;
+    if (total_amount_of_loans.length > 0) { _total_amount_of_loans = total_amount_of_loans.reduce((a, b) => a + b)} else {_total_amount_of_loans = 0}
+
     loan_html = `
         <div class="flex flex-col">
             <div class="overflow-x-auto">
@@ -249,10 +258,10 @@ function impactUpdate(){
                         </thead>
                         <tbody class="text-center">
                             <tr class="row-b1">
-                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
-                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
+                                <td class="px-6 py-4">${_total_jobs}</td>
+                                <td class="px-6 py-4">${formatter.format(_total_capital_investment)}</td>
                                 <td class="px-6 py-4">${total_number_of_loans}</td>
-                                <td class="px-6 py-4">${formatter.format(total_amount_of_loans.reduce((a, b) => a + b))}</td>               
+                                <td class="px-6 py-4">${formatter.format(_total_amount_of_loans)}</td>               
                             </tr>
                         </tbody>
                         </table>
@@ -350,21 +359,21 @@ function sortLoanList(){
         </tr>`;
     }
 
-    if (html == base_html){
-        html += `<tr class="px-6 py-4">No Results Found</tr>`;
-    }
-
     if (temp_list_filtered.length != 0){
         _filtered = temp_list_filtered;
         impactUpdate();
     }
     
-    html += `</tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>`;
+            html += `</tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>`;
+    if (html == base_html || temp_list_filtered.length == 0 || _searched.length == 0){
+        html = `<div class="edge-wrapper px-6 py-4">No Results Found</div>`;
+    }
+
     document.getElementById('edge_loans').innerHTML = html;
 }
 
@@ -540,7 +549,7 @@ $("#search-button").click(function(){
         console.log(_searched);
     }
     sortLoanList();
-    impactFilter();
+    impactUpdate();
     if ($(window).scrollTop() < 550 && $("#name-search").val() != "") {
         $("html").animate({scrollTop: 550}, 400);
     }
