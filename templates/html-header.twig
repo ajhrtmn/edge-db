@@ -41,7 +41,7 @@
 		.bg-repeat-y { background-repeat: repeat-y; }
 		.bg-repeat-x { background-repeat: repeat-x; }
 		.bg-no-repeat { background-repeat: no-repeat;}
-		.border-none { border: none; }
+		.border-none { border: none }
 		.letter-wider {letter-spacing: 2px;}
 
 		{# EDGE Custom Colors #}
@@ -139,6 +139,37 @@
 				background-size: auto 100vw;
 				background-position: 100% 100%;
 				background-repeat: no-repeat;
+			}
+			.hero .bg-white {
+				--tw-bg-opacity: .9;
+			}
+			.hero .py-20 {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+			}
+			.hero .pr-16 {
+				padding-right: 0;
+			}
+			.hero .w-7\/12 {
+				width: 80.333333%;
+				justify-content: center !important;
+			}
+			.hero .gap-6 {
+				gap: 0.5rem;
+			}
+			.hero .left-offset {
+				margin-left: auto;
+    			margin-right: auto;
+			}
+			.search-header {
+				font-size: 2.9rem !important;
+			}
+			.flex.gap-6.mt-4.justify-end {justify-content: center !important; margin-left: -3rem;}
+			#search-button {padding-left: 1rem; padding-right: 1rem;}
+			#name-search {border: 1px solid rgba(0,0,0,0.1);}
+			[id^="edge_"] table.min-col .px-6 {
+				padding-left: 1rem;
+    			padding-right: 1rem;
 			}
 		}
 
@@ -243,6 +274,9 @@
 		.row-b1 {
 			border-bottom: 1px solid #ccc;
 		}
+		.row-b1:last-child {
+			border-bottom: none;
+		}
 
 		#filter-tab,
 		#filter-selection-list {
@@ -253,6 +287,23 @@
 			max-width: 1200px !important;
 		}
 
+		#total_results div > ul > li {
+			border-top: 1px solid #C8C8C8;
+		}
+		#total_results div > ul > li:last-child {
+			border-bottom: 1px solid #C8C8C8;
+		}
+		#total_results div.w-full {
+			padding: 0 4%;
+		}
+		.applies {
+			padding: 2% 4%;
+			font-weight: 300;
+		}
+		.edge-bg-red.diag.px-6 {
+			box-shadow: -20px 20px 0px rgb(0 0 0 / 6%);
+		}
+
 		[id^="edge_"] table:before {
 			content: "";
 			background-color: #3A3B3D;
@@ -260,12 +311,12 @@
 			width: 100%;
 			display: block;
 			position: absolute;
-    			margin-left: -97%;
+    			margin-left: -95%;
 		}
-			[id^="edge_"] table.min-col:before {
-				margin-top: -56px;
-				height: 56px;
-			}
+		[id^="edge_"] table.min-col:before {
+			margin-top: -48px;
+			height: 48px;
+		}
 
 		{# //////// Responsive #}
 
@@ -277,6 +328,11 @@
 		@media (min-width: 854px) and (max-width: 1070px) {
 			#pilot_list.flex table:before {
 				margin-top: -104px;
+			}
+		}
+		@media (max-width: 854px) {
+			#pilot_list.flex table:before {
+				margin-top: -128px;
 			}
 		}
 
@@ -308,12 +364,37 @@
 			}
 		}
 
-		@media (max-width: 1026px) {						
-			[id^="edge_"] table:before {
-				margin-top: -128px;
+		@media (max-width: 1002px) {						
+			[id^="edge_"] table.min-col:before {
+				margin-top: -80px;
 			}
-			[id^="edge_"] table.min-col:before,
 			#loan_list.flex table.min-col:before {
+				margin-top: -72px;
+			}
+			#edge_bonds table.min-col:before {
+				margin-top: -56px;
+				height: 56px;
+			}
+		}
+		#tif_list table.min-col:before,
+		#bond_list table.min-col:before,
+		#other_list table.min-col:before {
+				margin-top: -56px;
+				height: 56px;
+		}
+
+		@media (max-width: 556px) {
+			#other_list table.min-col:before {
+				margin-top: -80px;
+			}
+		}
+		@media (max-width: 510px) {
+			#bond_list table.min-col:before {
+				margin-top: -80px;
+			}
+		}
+		@media (max-width: 504px) {
+			#tif_list table.min-col:before {
 				margin-top: -80px;
 			}
 		}
@@ -323,10 +404,21 @@
 			}
 			.desktop {
 				justify-content: space-between;
+				flex-direction: column !important;
+				align-items: center;
+				gap: 0 !important;
+			}
+			.desktop .hdr-logo {
+				padding-left: 0;
+				padding-right: 0;
+				margin-left: 0;
+			}
+			.mobile-menu-button {
+				margin-top: 0 !important;
 			}
 		}
 		@media only screen and (max-width: 485px) {
-			.header > .wrapper > .desktop {
+			{#.header > .wrapper > .desktop {
 				display: none;
 			}
 			.header > .wrapper > .mobile {
@@ -338,7 +430,7 @@
 			}
 			#menu.burger > li > span {
 				display: none;
-			}
+			}#}
 			#top-nav {
 				flex-wrap: wrap;
 				justify-content: center;

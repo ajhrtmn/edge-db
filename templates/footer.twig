@@ -10,8 +10,11 @@
         
     }
     .footer-content > div {
-        max-width: 1024px;
+        max-width: 1200px;
         margin: 0px auto;
+    }
+    .footer-content .logo {
+        max-width: 30%;
     }
 
     .mb-neg{
@@ -20,6 +23,23 @@
 
     .material-icons {
         font-size: 1.25rem;
+    }
+    .fa:hover {
+        color: #BF021C
+    }
+    .question {
+        justify-content: end;
+    }
+
+	@media only screen and (max-width: 1000px) {
+        .footer-content .grid {
+            grid-template-columns: none !important;
+            justify-content: center;
+            justify-items: center;
+        }
+        .copyright {
+            text-align:center;
+        }
     }
 </style>
 {% include  "menu-footer.twig" with {'items': menuFooter.get_items} %}
@@ -46,23 +66,24 @@
     </div> #}
     <div class="footer-content pb-10 pt-16">
         <div class="grid grid-cols-2 gap-6">
-            <div class="col-span-1"><img src="{{custom_logo_url}}" alt="{{site.name}}" /></div>
-            <div class="col-span-1 flex flex-col items-end">
+            <div class="col-span-1 logo"><img loading="lazy" width="474" height="252" src="https://edge.saucebuild.com/wp/wp-content/uploads/2022/06/edge-logo.png" alt="EDGE logo" title="edge logo" srcset="https://edge.saucebuild.com/wp/wp-content/uploads/2022/06/edge-logo.png 474w, https://edge.saucebuild.com/wp/wp-content/uploads/2022/06/edge-logo-300x159.png 300w" sizes="(max-width: 474px) 100vw, 474px" class="wp-image-21"></div>
+            <div class="col-span-1 flex flex-col items-end question">
                 <div class="text-xl">Have a question?</div>
                 <a id="contact-us" href="" class="flex items-center">
                     <div class="uppercase text-xs mt-1 letter-wider ">Contact Us </div>
                     <span class="material-icons edge-red">chevron_right</span>
                 </a>
             </div>
-            <div class="col-span-1">
-                @2022 | <a>Privacy Policy</a> | <a>Accessibility</a>
+            <div class="col-span-1 copyright">
+                @2022 | <a class="edge-red" href="https://edge.saucebuild.com/wp/privacy-policy/">Privacy Policy</a> | <a class="edge-red" href="https://edge.saucebuild.com/wp/accessibility/">Accessibility</a>
+                <br><br><a class="edge-red text-sm" href="https://www.saucemarketing.com/" target="_blank" rel="noopener">Built and Powered by Sauce</a>
             </div>
             <div class="col-span-1 text-right">
                 <div class="flex flex-row gap-4 justify-end">
-                    <div><a class="fa fa-facebook"></a></div>
-                    <div><a class="fa fa-linkedin"></a></div>
-                    <div><a class="fa fa-twitter"></a></div>
-                    <div><a class="fa fa-youtube"></a></div>
+                    <div><a href="https://www.facebook.com/ecogrowthengine/" class="fa fa-facebook" title="Follow on Facebook" target="_blank"></a></div>
+                    <div><a href="https://twitter.com/ecogrowthengine" class="fa fa-twitter" title="Follow on Twitter" target="_blank"></a></div>
+                    <div><a href="https://www.linkedin.com/company/ecogrowthengine" class="fa fa-linkedin" title="Follow on LinkedIn" target="_blank"></a></div>
+                    {#<div><a class="fa fa-youtube"></a></div>#}
                 </div>
             </div>
         </div>

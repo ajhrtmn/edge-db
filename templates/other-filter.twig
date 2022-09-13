@@ -169,25 +169,25 @@ function impactFilters() {
     });
 
     var other_html = `
-        <div class="grid grid-cols-12 bebas">
-            <div class="col-span-2">Total Jobs</div>
-            <div class="col-span-4">Total Capital Investment</div>
-            <div class="col-span-3">Total Number of Others</div>
-            <div class="col-span-3">Total Amount of Others</div>
-        </div>
-        <div class="grid grid-cols-12">
-            <div class="col-span-2">
-                ${total_jobs.reduce((a, b) => a + b)}
-            </div>
-            <div class="col-span-4">
-                ${formatter.format(total_capital_investment.reduce((a, b) => a + b))}
-            </div>
-            <div class="col-span-3">
-                ${total_number_of_others}
-            </div>
-            <div class="col-span-3">
-                ${formatter.format(total_amount_of_others.reduce((a, b) => a + b))}
-            </div>
+        <div class="w-full">
+            <ul class="w-full flex flex-col">
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
+                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Number of Others</div>
+                    <div class="col-span-3 p-3">${total_number_of_others}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Amount of Others</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_amount_of_others.reduce((a, b) => a + b))}</div>
+                </li>
+            </ul>
         </div>`;
 
     document.getElementById('total_results').innerHTML = other_html;

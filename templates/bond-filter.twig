@@ -147,39 +147,25 @@ function impactFilter(){
     });
 
     var bond_html = `
-        <div class="flex flex-col">
-            <div class="overflow-x-auto">
-                <div class="inline-block min-w-full">
-                    <div class="overflow-x-auto">
-                        <table class="max-w-screen-xl mx-auto">
-                        <thead class="text-base text-center">
-                            <tr>
-                            <th scope="col" class="px-6 py-4">
-                                Total Jobs
-                            </th>
-                            <th scope="col" class="px-6 py-4 max-w-xs">
-                                Total Capital Investment
-                            </th>
-                            <th scope="col" class="px-6 py-4">
-                                Total Number of Bonds
-                            </th>
-                            <th scope="col" class="px-6 py-4">
-                                Total Amount of Bonds
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr class="row-b1">
-                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
-                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${total_number_of_bonds}</td>
-                                <td class="px-6 py-4">${formatter.format(total_amount_of_bonds.reduce((a, b) => a + b))}</td>               
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="w-full">
+            <ul class="w-full flex flex-col">
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
+                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Number of Bonds</div>
+                    <div class="col-span-3 p-3">${total_number_of_bonds}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Amount of Bonds</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_amount_of_bonds.reduce((a, b) => a + b))}</div>
+                </li>
+            </ul>
         </div>`;
 
     document.getElementById('total_results').innerHTML = bond_html;

@@ -157,12 +157,32 @@ function impactFilter() {
     });
 
     var tif_html = `
-        <div class="grid grid-cols-12 font-bold text-base text-center">
-            <div class="col-span-2">Total Jobs</div>
-            <div class="col-span-4">Total Capital Investment</div>
-            <div class="col-span-3">Total Number of TIFs</div>
-            <div class="col-span-3">Total Amount of TIFs</div>
+        <div class="w-full">
+            <ul class="w-full flex flex-col">
+        {#<div class="grid grid-cols-12 font-bold text-base text-center">#}
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
+                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Number of TIFs</div>
+                    <div class="col-span-3 p-3">${total_number_of_tifs}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Amount of TIFs</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_amount_of_tifs.reduce((a, b) => a + b))}</div>
+                </li>
+            </ul>
         </div>
+                {#<div class="col-span-2">Total Jobs</div>
+                <div class="col-span-4">Total Capital Investment</div>
+                <div class="col-span-3">Total Number of TIFs</div>
+                <div class="col-span-3">Total Amount of TIFs</div>#}
+        {#</div>
         <div class="grid grid-cols-12 text-center">
             <div class="col-span-2">
                 ${total_jobs.reduce((a, b) => a + b)}
@@ -176,7 +196,7 @@ function impactFilter() {
             <div class="col-span-3">
                 ${formatter.format(total_amount_of_tifs.reduce((a, b) => a + b))}
             </div>
-        </div>`;
+        </div>#}`;
 
     document.getElementById('total_results').innerHTML = tif_html;
 }

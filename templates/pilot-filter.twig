@@ -394,70 +394,40 @@ function impactUpdate(){
 
     const total_number_of_pilots = _filtered.length;
 
-    html = `<div class="flex flex-col">
-            <div class="overflow-x-auto">
-                <div class="inline-block min-w-full">
-                    <div class="overflow-x-auto">
-                        <table class="max-w-screen-xl mx-auto">
-                        <thead class="text-base text-center">
-                            <tr>
-                            <th scope="col" class="px-6 py-4">
-                                Total Jobs
-                            </th>
-                            <th scope="col" class="px-6 py-4 max-w-xs">
-                                Total Capital Investment
-                            </th>
-                            <th scope="col" class="px-6 py-4">
-                                Total Projected MWBE/LOSB Spending
-                            </th>
-                            <th scope="col" class="px-6 py-4">
-                                Average Wage Per Job
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr class="row-b1">
-                                <td class="px-6 py-4">${total_jobs.reduce((a, b) => a + b)}</td>
-                                <td class="px-6 py-4">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${formatter.format(total_projected_spending.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${formatter.format((avg_wage_per_job.reduce((a, b) => a + b)) / total_number_of_pilots)}</td>               
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+    html = `
+        <div class="w-full">
+            <ul class="w-full flex flex-col">
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
+                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Projected MWBE/LOSB Spending</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_projected_spending.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Average Wage Per Job</div>
+                    <div class="col-span-3 p-3">${formatter.format((avg_wage_per_job.reduce((a, b) => a + b)) / total_number_of_pilots)}</div>
+                </li>`;
 
-        html += `<div class="flex flex-col">
-            <div class="overflow-x-auto">
-                <div class="inline-block min-w-full">
-                    <div class="overflow-x-auto">
-                        <table class="max-w-screen-xl mx-auto">
-                        <thead class="text-base">
-                            <tr>
-                            <th scope="col" class="px-6 py-4">
-                                Total Projected Tax Revenue
-                            </th>
-                            <th scope="col" class="px-6 py-4 max-w-xs">
-                                Total Projected Tax Abated
-                            </th>
-                            <th scope="col" class="px-6 py-4">
-                                Total Projected Cost Ratio
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr class="row-b1">
-                                <td class="px-6 py-4">${formatter.format(total_projected_tax_revenue.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${formatter.format(total_projected_tax_abated.reduce((a, b) => a + b))}</td>
-                                <td class="px-6 py-4">${Math.round(100 * (total_projected_tax_revenue.reduce((a, b) => a + b)) / total_projected_tax_abated.reduce((a, b) => a + b)) / 100}</td>            
-                            </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        html += `
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Projected Tax Revenue</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_projected_tax_revenue.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Projected Tax Abated</div>
+                    <div class="col-span-3 p-3">${formatter.format(total_projected_tax_abated.reduce((a, b) => a + b))}</div>
+                </li>
+                <li class="w-full grid grid-cols-12">
+                    <div class="col-span-9 p-3 font-semibold">Total Projected Cost Ratio</div>
+                    <div class="col-span-3 p-3">${Math.round(100 * (total_projected_tax_revenue.reduce((a, b) => a + b)) / total_projected_tax_abated.reduce((a, b) => a + b)) / 100}</div>
+                </li>
+            </ul>
         </div>`;
 
     document.getElementById('total_results').innerHTML = html;

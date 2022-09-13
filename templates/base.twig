@@ -26,6 +26,48 @@
 			
 			<header class="header" >
 				{% block header %}
+
+				{#<!-- header/navigation -->
+				<div x-data="{ isOpen: false }" class="flex justify-between p-4 lg:p-8">
+					<div class="flex items-center">
+						<h1 class="hdr-logo bg-white pt-8 pr-24 pb-2 diag" role="banner">
+							<a class="hdr-logo-link" href="{{site.url}}" rel="home">
+							{% if custom_logo_url %}
+								<img src="{{custom_logo_url}}" alt="{{site.name}}" />
+							{% else %}
+								{{site.name}}
+							{% endif %}
+							</a>
+						</h1>
+					</div>
+
+					<!-- left header section -->
+					<div class="flex items-center justify-between">
+						<button @click="isOpen = !isOpen" type="submit">
+								viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+									d="M4 6h16M4 12h16M4 18h16" />
+							</svg>
+						</button>
+						<div class="hidden space-x-6 lg:inline-block">
+							{% include "menu.twig" with {'items': menuPrimary.get_items} %}
+						</div>
+
+						<!-- mobile navbar -->
+						<div class="mobile-navbar">
+							<!-- navbar wrapper -->
+							<div class="absolute left-0 w-full h-48 p-5 bg-white rounded-lg shadow-xl top-16" x-show="isOpen"
+								@click.away=" isOpen = false">								
+								{% include "menu.twig" with {'items': menuPrimary.get_items} %}
+							</div>
+						</div>
+						<!-- end mobile navbar -->
+					</div>
+					<!-- right header section -->
+
+				</div>#}
+
+
 					<div class="wrapper edge-bg-lite px-6">
 						<div class="desktop edge-wrapper flex flex-row gap-20 ">
 							<h1 class="hdr-logo bg-white pt-8 pr-24 pb-2 diag" role="banner">
@@ -41,7 +83,7 @@
 								{% include "menu.twig" with {'items': menuPrimary.get_items} %}
 							</nav><!-- #nav -->
 						</div>
-						<div class="mobile edge-wrapper grid grid-cols-2 items-center py-4">
+						{#<div class="mobile edge-wrapper grid grid-cols-2 items-center py-4">
 							<a class="col-span-1" href="{{site.url}}" rel="home">
 								{% if custom_logo_url %}
 									<img src="https://edgedata.saucebuild.com/wp/wp-content/uploads/2022/07/edge-project-database-logo.png" alt="{{site.name}}" />
@@ -53,7 +95,7 @@
 								<span class="material-icons cursor-pointer"> menu </span>
 							</div>
 							{% include "menu.twig" with {'items': menuPrimary.get_items} %}
-						</div>
+						</div>#}
 					</div>
 				{% endblock %}
 			</header>
@@ -87,11 +129,8 @@
 			<script>
 				$(document).ready(function() {
 					$('.mobile-menu-button').click(function() {
-						$('.mobile-menu').show();
-						$('.mobile-menu').css('display', 'flex');
-					});
-					$('.close-mobile').click(function() {
-						$('.mobile-menu').hide();
+						$('.mobile-menu').slideToggle();
+  						return false;
 					});
 				});
 			</script>

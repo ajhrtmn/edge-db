@@ -3,6 +3,12 @@
     #scorecard-data div > ul > li {
         border-top: 2px solid #C8C8C8;
     }
+    #scorecard-data div > ul > li:last-child {
+        border-bottom: 2px solid #C8C8C8;
+    }
+    #scorecard-data div.w-full {
+        padding: 0 4%;
+    }
 
 
 </style>
@@ -177,88 +183,88 @@
     });
 
     li_html += `
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.total_jobs.text}</div>
         <div class=" col-span-3 p-3">${scorecard.total_jobs.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.total_capital_investment.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.total_capital_investment.value)}</div>
     </li>
 
         <li style="height:.75rem;" class="w-full edge-bg-dark border-none"></li>
     
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.num_of_pilots_approved.text}</div>
         <div class=" col-span-3 p-3">${scorecard.num_of_pilots_approved.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.target_spending.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.target_spending.value)}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.avg_pilot_wage.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.avg_pilot_wage.value / scorecard.total_jobs.value)}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.avg_pilot_term.text}</div>
         <div class=" col-span-3 p-3">${scorecard.avg_pilot_term.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.local_tax_rev.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.local_tax_rev.value)}</div>
     </li>
     
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.tax_abated.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.tax_abated.value)}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.benefit_cost_ratio.text}</div>
         <div class=" col-span-3 p-3">${scorecard.benefit_cost_ratio.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.incentive_amt.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.incentive_amt.value)}</div>
     </li>
 
         <li style="height:.75rem;" class="w-full edge-bg-dark"></li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.num_tifs_approved.text}</div>
         <div class=" col-span-3 p-3">${scorecard.num_tifs_approved.value}</div>
     </li>
 
         <li style="height:.75rem;" class="w-full edge-bg-dark"></li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.num_loans_approved.text}</div>
         <div class=" col-span-3 p-3">${scorecard.num_loans_approved.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.total_loan_amt.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.total_loan_amt.value)}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.num_bonds_approved.text}</div>
         <div class=" col-span-3 p-3">${scorecard.num_bonds_approved.value}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.total_bond_amt.text}</div>
         <div class=" col-span-3 p-3">${formatter.format(scorecard.total_bond_amt.value)}</div>
     </li>
 
-    <li class="w-full grid grid-cols-12  uppercase">
+    <li class="w-full grid grid-cols-12">
         <div class=" col-span-9 p-3 font-semibold">${scorecard.num_others_approved.text}</div>
         <div class=" col-span-3 p-3">${scorecard.num_others_approved.value}</div>
     </li>
@@ -276,12 +282,12 @@
 <h1 class="mt-12 flex gap-6 mb-6 sm-hdr">
     <div class="px-2 edge-bg-red diag"></div>
     <div>Projects<br>Scorecard</div>
-<h1>
+</h1>
 
 <div id="scorecard-data" class="overflow-x-auto">
     Loading...
 </div>
 
-<div class="text-sm py-2">
+<div class="text-xs applies">
     *APPLIES TO PILOTS APPROVED PRIOR TO JULY 1, 2017
 </div>
