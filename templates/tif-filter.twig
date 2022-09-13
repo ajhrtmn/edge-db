@@ -156,17 +156,26 @@ function impactFilter() {
         return parseInt(t.TIFAmount);
     });
 
+    var _total_jobs;
+    if (total_jobs.length > 0) { _total_jobs = total_jobs.reduce((a, b) => a + b)} else {_total_jobs = 0}
+
+    var _total_capital_investment;
+    if (total_capital_investment.length > 0) { _total_capital_investment = total_capital_investment.reduce((a, b) => a + b)} else {_total_capital_investment = 0}
+
+    var _total_amount_of_tifs;
+    if (total_amount_of_tifs.length > 0) { _total_amount_of_tifs = total_amount_of_tifs.reduce((a, b) => a + b)} else {_total_amount_of_tifs = 0}
+
     var tif_html = `
         <div class="w-full">
             <ul class="w-full flex flex-col">
         {#<div class="grid grid-cols-12 font-bold text-base text-center">#}
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
-                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                    <div class="col-span-3 p-3">${_total_jobs}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_capital_investment)}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Number of TIFs</div>
@@ -174,29 +183,10 @@ function impactFilter() {
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Amount of TIFs</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_amount_of_tifs.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_amount_of_tifs)}</div>
                 </li>
             </ul>
-        </div>
-                {#<div class="col-span-2">Total Jobs</div>
-                <div class="col-span-4">Total Capital Investment</div>
-                <div class="col-span-3">Total Number of TIFs</div>
-                <div class="col-span-3">Total Amount of TIFs</div>#}
-        {#</div>
-        <div class="grid grid-cols-12 text-center">
-            <div class="col-span-2">
-                ${total_jobs.reduce((a, b) => a + b)}
-            </div>
-            <div class="col-span-4">
-                ${formatter.format(total_capital_investment.reduce((a, b) => a + b))}
-            </div>
-            <div class="col-span-3">
-                ${total_number_of_tifs}
-            </div>
-            <div class="col-span-3">
-                ${formatter.format(total_amount_of_tifs.reduce((a, b) => a + b))}
-            </div>
-        </div>#}`;
+        </div>`;
 
     document.getElementById('total_results').innerHTML = tif_html;
 }
@@ -277,10 +267,6 @@ function sortTIFList(){
         _filtered = temp_list_filtered;
         impactFilter();
     }
-
-    if (html == base_html){
-        html += `<tr class="px-6 py-4">No Results Found</tr>`;
-    }
     
     html += `</tbody>
         </table>
@@ -288,6 +274,11 @@ function sortTIFList(){
     </div>
   </div>
 </div>`;
+
+    if (html == base_html || temp_list_filtered.length == 0 || _searched.length == 0){
+        html = `<div class="edge-wrapper px-6 py-4">No Results Found</div>`;
+    }
+
     document.getElementById('edge_tifs').innerHTML = html;
 }
 

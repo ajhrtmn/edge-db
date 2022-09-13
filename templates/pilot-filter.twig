@@ -394,38 +394,59 @@ function impactUpdate(){
 
     const total_number_of_pilots = _filtered.length;
 
+    var _total_jobs;
+    if (total_jobs.length > 0) { _total_jobs = total_jobs.reduce((a, b) => a + b)} else {_total_jobs = 0}
+
+    var _total_capital_investment;
+    if (total_capital_investment.length > 0) { _total_capital_investment = total_capital_investment.reduce((a, b) => a + b)} else {_total_capital_investment = 0}
+
+    var _total_projected_spending;
+    if (total_projected_spending.length > 0) { _total_projected_spending = total_projected_spending.reduce((a, b) => a + b)} else {_total_projected_spending = 0}
+
+    var _avg_wage_per_job;
+    if (avg_wage_per_job.length > 0) { _avg_wage_per_job = (avg_wage_per_job.reduce((a, b) => a + b)) / total_number_of_pilots} else {_avg_wage_per_job = 0}
+
     html = `
         <div class="w-full">
             <ul class="w-full flex flex-col">
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Jobs</div>
-                    <div class="col-span-3 p-3">${total_jobs.reduce((a, b) => a + b)}</div>
+                    <div class="col-span-3 p-3">${_total_jobs}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Capital Investment</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_capital_investment.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_capital_investment)}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Projected MWBE/LOSB Spending</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_projected_spending.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_projected_spending)}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Average Wage Per Job</div>
-                    <div class="col-span-3 p-3">${formatter.format((avg_wage_per_job.reduce((a, b) => a + b)) / total_number_of_pilots)}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_avg_wage_per_job)}</div>
                 </li>`;
+
+        var _total_projected_tax_revenue;
+        if (total_projected_tax_revenue.length > 0) { _total_projected_tax_revenue = total_projected_tax_revenue.reduce((a, b) => a + b)} else {_total_projected_tax_revenue = 0}
+
+        var _total_projected_tax_abated;
+        if (total_projected_tax_abated.length > 0) { _total_projected_tax_abated = total_projected_tax_abated.reduce((a, b) => a + b)} else {_total_projected_tax_abated = 0}
+
+        var _total_projected_cost_ratio;
+        if (_total_projected_tax_abated != 0 && _total_projected_tax_revenue != 0) { _total_projected_cost_ratio = Math.round(100 * (total_projected_tax_revenue.reduce((a, b) => a + b)) / total_projected_tax_abated.reduce((a, b) => a + b)) / 100 } else {_total_projected_cost_ratio = 0}
 
         html += `
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Projected Tax Revenue</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_projected_tax_revenue.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_projected_tax_revenue)}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Projected Tax Abated</div>
-                    <div class="col-span-3 p-3">${formatter.format(total_projected_tax_abated.reduce((a, b) => a + b))}</div>
+                    <div class="col-span-3 p-3">${formatter.format(_total_projected_tax_abated)}</div>
                 </li>
                 <li class="w-full grid grid-cols-12">
                     <div class="col-span-9 p-3 font-semibold">Total Projected Cost Ratio</div>
-                    <div class="col-span-3 p-3">${Math.round(100 * (total_projected_tax_revenue.reduce((a, b) => a + b)) / total_projected_tax_abated.reduce((a, b) => a + b)) / 100}</div>
+                    <div class="col-span-3 p-3">${_total_projected_cost_ratio}</div>
                 </li>
             </ul>
         </div>`;
@@ -562,12 +583,6 @@ function sortPilotList(){
                 <td class="px-6 py-4">${p.BenefitCostRatio}</td>                
             </tr>`;
     }
-
-    
-
-    if (html == base_html){
-        html += `<tr class="px-6 py-4">No Results Found</tr>`;
-    }
     
     html += `</tbody>
         </table>
@@ -575,6 +590,11 @@ function sortPilotList(){
     </div>
   </div>
 </div>`;
+
+    if (html == base_html || temp_list_filtered.length == 0 || _searched.length == 0){
+        html = `<div class="edge-wrapper px-6 py-4">No Results Found</div>`;
+    }
+
     document.getElementById('edge_pilots').innerHTML = html;
     if (temp_list_filtered.length != 0){
         _filtered = temp_list_filtered;
