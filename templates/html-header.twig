@@ -479,5 +479,11 @@
 				}
 			});
 		});
+
+		$(document).ready(function() {
+			$('#wp-admin-bar-top-secondary').html(
+				`<li><a href="<?php echo wp_logout_url(); ?>" class="ab-item">Log Out</a></li>`
+			);
+		});
 	</script>
     {{function('wp_head')}}
