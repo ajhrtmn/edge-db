@@ -161,7 +161,8 @@
 				margin-left: auto;
     			margin-right: auto;
 			}
-			.search-header {
+			.search-header,
+			.text-7xl {
 				font-size: 2.9rem !important;
 			}
 			.flex.gap-6.mt-4.justify-end {justify-content: center !important; margin-left: -3rem;}
@@ -170,6 +171,15 @@
 			[id^="edge_"] table.min-col .px-6 {
 				padding-left: 1rem;
     			padding-right: 1rem;
+			}
+			.edge-bg-dark.w-1\/2 {
+				width: 80%;
+			}
+				.edge-bg-dark.w-1\/2 .pr-24 {
+					padding-right: 0;
+				}
+			[id^="edge_"] .grid-cols-2 {
+				grid-template-columns: repeat(1, minmax(0, 1fr))
 			}
 		}
 
@@ -347,10 +357,11 @@
 
 		@media only screen and (max-width: 1115px) and (min-width: 768px) {
 			.left-offset {
-				margin-left: 0px;
+				margin-left: -10px;
 			}
-			.search-header {
-				font-size: 3rem;
+			.search-header,
+			.text-7xl {
+				font-size: 3rem !important;
 				line-height: 1;
 			}
 			.edge-max-w-500 {
@@ -361,6 +372,9 @@
 		@media (max-width: 1280px) {			
 			#top-nav {
 				width: 90%;
+			}
+			[id^="edge_"] .edge-wrapper {
+				padding: 0 4%;
 			}
 		}
 
