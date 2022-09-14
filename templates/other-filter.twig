@@ -499,24 +499,38 @@ $("#filter-tab").click(function(){
     }
 });
 
+$(document).ready(function(){
+    $("#filter-tab").css("top",$("#data-diag").position().top + "px");
+    $("#filter-selection-list").css("top",$("#data-diag").position().top + 20 + "px");
+});
+
 $(window).scroll(function(){
   if ($(window).scrollTop() > ($("#filter-tab").position().top - 100)){
     $("#filter-tab").css("position","fixed");
     $("#filter-selection-list").css("position","fixed");
-    $("#filter-tab").css("top","30px");
-    $("#filter-selection-list").css("top","50px");
+    $("#filter-tab").css("top","40px");
+    $("#filter-selection-list").css("top","60px");
   } else {
     $("#filter-tab").css("position","absolute");
     $("#filter-selection-list").css("position","absolute");
-    $("#filter-tab").css("top","580px");
-    $("#filter-selection-list").css("top","600px");
+    $("#filter-tab").css("top",$("#data-diag").position().top + "px");
+    $("#filter-selection-list").css("top",$("#data-diag").position().top + 20 + "px");
   }
 
   if ($(window).scrollTop() < 550) {
     $("#filter-tab").css("position","absolute");
     $("#filter-selection-list").css("position",toggle);
-    $("#filter-tab").css("top","580px");
-    $("#filter-selection-list").css("top","600px");
+    $("#filter-tab").css("top",$("#data-diag").position().top + "px");
+    $("#filter-selection-list").css("top",$("#data-diag").position().top + 20 + "px");
   }
+});
+
+$(window).resize(function(){
+    if ($(window).scrollTop() < 550) {
+        $("#filter-tab").css("position","absolute");
+        $("#filter-selection-list").css("position",toggle);
+        $("#filter-tab").css("top",$("#data-diag").position().top + "px");
+        $("#filter-selection-list").css("top",$("#data-diag").position().top + 20 + "px");
+    }
 });
 </script>
