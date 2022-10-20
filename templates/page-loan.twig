@@ -33,9 +33,6 @@
 	if (_l_id == "loan") { _l_id = {{params}}[3] }
 	const loan = loans.find(l => l.Id === _l_id);
 
-	console.log(loan);
-
-
 	var Address = '';
 	if (loan.Address) { Address += loan.Address; }
 	if (loan.Address2) { Address += ', ' + loan.Address2; }
@@ -83,7 +80,7 @@
 			<h1>
 
 			<div class="w-10/12 mx-auto p-12 bg-white shadow-lg">
-				${loan.ProjectDescription}
+				${decodeURI(loan.ProjectDescription)).replace(/(?:\r\n|\r|\n)/g, '<br>')}
 			</div>
 
 			<h1 class="mt-16 mb-8 flex gap-6 flex items-center sm-hdr">

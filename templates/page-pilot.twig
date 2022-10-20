@@ -33,11 +33,6 @@
 	if (_p_id == "pilot") { _p_id = {{params}}[3] }
 	const pilot = pilots.find(p => p.Id === _p_id);
 
-	console.log({{params}});
-	console.log(_p_id);
-	console.log(pilots);
-	console.log(pilot);
-
 	var Address = '';
 	if (pilot.Address) { Address += pilot.Address; }
 	if (pilot.Address2) { Address += ', ' + pilot.Address2; }
@@ -159,7 +154,7 @@
 			<h1>
 
 			<div class="w-10/12 mx-auto p-12 bg-white shadow-lg">
-				${pilot.ProjectDescription}
+				${decodeString(pilot.ProjectDescription).replace(/(?:\r\n|\r|\n)/g, '<br>')}
 			</div>
 
 			<h1 class="mt-16 mb-8 flex gap-6 flex items-center sm-hdr">

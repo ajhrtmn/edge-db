@@ -500,6 +500,78 @@
 				`<li><a href="<?php echo wp_logout_url(); ?>" class="ab-item">Log Out</a></li>`
 			);
 		});
+
+
+		function encodeString(str) {
+			var encoded = str.replace(/;/gm, 'encodedSemi');
+			encoded = encoded.replace(/:/gm, 'encodedColon');
+			encoded = encoded.replace(/\?/gm, 'encodedQuestion');
+			encoded = encoded.replace(/=/gm, 'encodedEquals');
+			encoded = encoded.replace(/&/gm, 'encodedAmpersand');
+			encoded = encoded.replace(/\//gm, 'encodedSlash');
+			encoded = encoded.replace(/#/gm, 'encodedHash');
+			encoded = encoded.replace(/@/gm, 'encodedAt');
+			encoded = encoded.replace(/\+/gm, 'encodedPlus');
+			encoded = encoded.replace(/\$/gm, 'encodedDollar');
+			encoded = encoded.replace(/,/gm, 'encodedComma');
+			encoded = encoded.replace(/'/gm, 'encodedApostrophe');
+			encoded = encoded.replace(/"/gm, 'encodedQuote');
+			encoded = encoded.replace(/</gm, 'encodedLessThan');
+			encoded = encoded.replace(/>/gm, 'encodedGreaterThan');
+			encoded = encoded.replace(/%/gm, 'encodedPercent');
+			encoded = encoded.replace(/\(/gm, 'encodedOpenParen');
+			encoded = encoded.replace(/\)/gm, 'encodedCloseParen');
+			encoded = encoded.replace(/\[/gm, 'encodedOpenBracket');
+			encoded = encoded.replace(/\]/gm, 'encodedCloseBracket');
+			encoded = encoded.replace(/{/gm, 'encodedOpenBrace');
+			encoded = encoded.replace(/}/gm, 'encodedCloseBrace');
+			encoded = encoded.replace(/\|/gm, 'encodedPipe');
+			encoded = encoded.replace(/\\/gm, 'encodedBackslash');
+			encoded = encoded.replace(/`/gm, 'encodedBacktick');
+			encoded = encoded.replace(/~/gm, 'encodedTilde');
+			encoded = encoded.replace(/\^/gm, 'encodedCaret');
+			encoded = encoded.replace(/\*/gm, 'encodedAstrisk');
+			encoded = encoded.replace(/_/gm, 'encodedUnderScore');
+			encoded = encoded.replace(/-/gm, 'encodedDash');
+
+			return escape(encoded);
+		}
+
+		function decodeString(str) {
+			var decoded = unescape(str).replace(/encodedSemi/gm, ';');
+			decoded = decoded.replace(/encodedColon/gm, ':');
+			decoded = decoded.replace(/encodedQuestion/gm, '?');
+			decoded = decoded.replace(/encodedEquals/gm, '=');
+			decoded = decoded.replace(/encodedAmpersand/gm, '&');
+			decoded = decoded.replace(/encodedSlash/gm, '/');
+			decoded = decoded.replace(/encodedHash/gm, '#');
+			decoded = decoded.replace(/encodedAt/gm, '@');
+			decoded = decoded.replace(/encodedPlus/gm, '+');
+			decoded = decoded.replace(/encodedDollar/gm, '$');
+			decoded = decoded.replace(/encodedComma/gm, ',');
+			decoded = decoded.replace(/encodedApostrophe/gm, "'");
+			decoded = decoded.replace(/encodedQuote/gm, '"');
+			decoded = decoded.replace(/encodedLessThan/gm, '<');
+			decoded = decoded.replace(/encodedGreaterThan/gm, '>');
+			decoded = decoded.replace(/encodedPercent/gm, '%');
+			decoded = decoded.replace(/encodedOpenParen/gm, '(');
+			decoded = decoded.replace(/encodedCloseParen/gm, ')');
+			decoded = decoded.replace(/encodedOpenBracket/gm, '[');
+			decoded = decoded.replace(/encodedCloseBracket/gm, ']');
+			decoded = decoded.replace(/encodedOpenBrace/gm, '{');
+			decoded = decoded.replace(/encodedCloseBrace/gm, '}');
+			decoded = decoded.replace(/encodedPipe/gm, '|');
+			decoded = decoded.replace(/encodedBackslash/gm, '\\');
+			decoded = decoded.replace(/encodedBacktick/gm, '`');
+			decoded = decoded.replace(/encodedTilde/gm, '~');
+			decoded = decoded.replace(/encodedCaret/gm, '^');
+			decoded = decoded.replace(/encodedAstrisk/gm, '*');
+			decoded = decoded.replace(/encodedUnderScore/gm, '_');
+			decoded = decoded.replace(/encodedDash/gm, '-');
+
+
+			return unescape(decoded);
+		}
 	</script>
 
 

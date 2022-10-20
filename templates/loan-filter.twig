@@ -314,8 +314,6 @@ function sortLoanList(){
 
     var temp_list_filtered = [];
 
-    console.log(filter_util);
-
     for (p of _searched){
         const DateApproved = checkLoanDateApproved(p);
         if (!DateApproved) { continue; }
@@ -530,7 +528,6 @@ $("#search-button").click(function(){
         }
         _searched = _temp_list;
         _filtered = _temp_list;
-        console.log(_searched);
     }
     sortLoanList();
     impactUpdate();
@@ -543,7 +540,6 @@ var toggle = "static";
 
 $("#filter-tab").click(function(){
     var t = $(this).find('span');
-    console.log();
     if ( t.html().trim() == "arrow_right" ) {
         $(this).find('span').html('arrow_left');
         toggle = "absolute";

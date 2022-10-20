@@ -80,7 +80,7 @@
 			<h1>
 
 			<div class="w-10/12 mx-auto p-12 bg-white shadow-lg">
-				${tif.Summary}
+				${decodeURI(tif.Summary)).replace(/(?:\r\n|\r|\n)/g, '<br>')}
 			</div>
 		</div>
 	</div>`;
