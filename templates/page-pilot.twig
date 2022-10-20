@@ -69,7 +69,7 @@
 	}
 	if (pilot.DateAmended01 == "0000-00-00" && pilot.DateAmended02 == "0000-00-00" && pilot.DateAmended03 == "0000-00-00" && pilot.DateAmended04 == "0000-00-00" && pilot.DateAmended05 == "0000-00-00") { DateAmended = 'Never Amended'; }
 
-	var ProjectedTaxRevenues = parseInt(pilot.TotalNewTaxRevenues);
+	var ProjectedTaxRevenues = parseInt(pilot.TotalRealPropertyTaxesAfter) + parseInt(pilot.TotalPersonalPropertyTaxesAfter);
 	var ProjectedTaxAbated = parseInt(pilot.ProjectedTaxesAbatedCity) + parseInt(pilot.ProjectedTaxesAbatedCounty);
 
 
@@ -183,7 +183,7 @@
 							</div>
 							<div class="grid grid-cols-2 py-4 gap-6">
 								<div class="col-span-1">Incentive Provided</div>
-								<div class="col-span-1">${formatter.format(pilot.TotalIncentiveProvided)}</div>
+								<div class="col-span-1">${formatter.format(parseInt(pilot.ProjectedTaxesAbatedCity) + parseInt(pilot.ProjectedTaxesAbatedCounty))}</div>
 							</div>
 							<div class="grid grid-cols-2 py-4 gap-6">
 								<div class="col-span-1">Compliance Information</div>
@@ -228,23 +228,23 @@
 								<div class="col-span-1">${pilot.TotalJobs}</div>
 							</div>
 
-							{# <div class="grid grid-cols-2 py-4 gap-6">
-								<div class="col-span-1">Projected Average Payroll of New Jobs</div>
-								<div class="col-span-1">${formatter.format(pilot.TotalNewPayroll)}</div>
+							<div class="grid grid-cols-2 py-4 gap-6">
+								<div class="col-span-1">Avg. Payroll of New Jobs</div>
+								<div class="col-span-1">${formatter.format(parseInt(pilot.ProjectedNewJobs) * parseInt(pilot.ProjectedAveragePayrollOfNewJobs) )}</div>
 							</div>
 							<div class="grid grid-cols-2 py-4 gap-6">
-								<div class="col-span-1">Projected Average Payroll of Retained Jobs</div>
-								<div class="col-span-1">${formatter.format(pilot.TotalRetainedPayroll)}</div>
-							</div> #}
+								<div class="col-span-1">Avg. Payroll of Retained Jobs</div>
+								<div class="col-span-1">${formatter.format(parseInt(pilot.ProjectedRetainedJobs) * parseInt(pilot.ProjectedAveragePayrollOfRetainedJobs) )}</div>
+							</div>
 
-							<div class="grid grid-cols-2 py-4 gap-6">
+							{# <div class="grid grid-cols-2 py-4 gap-6">
 								<div class="col-span-1">Annual New Direct Payroll</div>
 								<div class="col-span-1">${formatter.format(pilot.TotalNewPayroll)}</div>
 							</div>
 							<div class="grid grid-cols-2 py-4 gap-6">
 								<div class="col-span-1">Annual Retained Direct Payroll</div>
 								<div class="col-span-1">${formatter.format(pilot.TotalRetainedPayroll)}</div>
-							</div>
+							</div> #}
 						</div>
 					</div>
 					<div class="col-span-1 flex flex-col items-end">

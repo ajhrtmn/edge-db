@@ -16,7 +16,7 @@
 				<div id="top-nav" class="edge-wrapper flex justify-end gap-4 pt-8">
 					{% for items in {'items': menuTopNav.get_items} %}
 						{% for item in items %}
-								<a class="py-2 px-4">
+								<a href="{{item.url}}" class="py-2 px-4">
 									<div class="text-xs uppercase">{{item}}</div>
 								</a>
 						{% endfor %}

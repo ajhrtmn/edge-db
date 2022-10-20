@@ -5,49 +5,173 @@ function Chart(){
 	this.name;
 	this.span;
 	this.data;
+	this.url;
 }
 
 var pilot_chart = new Chart();
 pilot_chart.name = 'Pilot Data';
 pilot_chart.span = 2;
 pilot_chart.data = sortByDate(pilots);
+pilot_chart.url = `${SITE_URL}/pilots`;
 
 var tifs_chart = new Chart();
 tifs_chart.name = 'TIF Data';
 tifs_chart.span = 2;
 tifs_chart.data = sortByDate(tifs);
+tifs_chart.url = `${SITE_URL}/tifs`;
 
 var loans_chart = new Chart();
 loans_chart.name = 'Loan Data';
 loans_chart.span = 2;
 loans_chart.data = sortByDate(loans);
+loans_chart.url = `${SITE_URL}/loans`;
 
 var bonds_chart = new Chart();
 bonds_chart.name = 'Bond Data';
 bonds_chart.span = 2;
 bonds_chart.data = sortByDate(bonds);
+bonds_chart.url = `${SITE_URL}/bonds`;
 
 var others_chart = new Chart();
 others_chart.name = 'Other Data';
 others_chart.span = 2;
 others_chart.data = sortByDate(others);
+others_chart.url = `${SITE_URL}/others`;
 
-var ftz = others.filter(function(d) { return d.other_type == "FTZ-77"; }).reduce(function(a, b) { return a + parseInt(b.TotalShipments) }, 0);
+var ftz = others.filter(function(d) { return d.OtherType == "FTZ-77"; }).reduce(function(a, b) { return a + parseInt(b.TotalShipments) }, 0);
 
-var number_of_grants = others.filter(function(d) { return d.other_type == "NEED Grant"; }).length;
+var number_of_grants = others.filter(function(d) { return d.OtherType == "NEED Grant"; }).length;
 
 
 var charts = [pilot_chart, tifs_chart, loans_chart, bonds_chart, others_chart];
 
 var total_jobs = pilots.reduce(function(acc, pilot) {
-	return acc + pilot.total_jobs;
+	return acc + pilot.TotalJobs;
 }, 0);
 
+function setHTML(chart, headings){
+	var LIMIT = 5;
+	{# console.log(!chart.data[0]); #}
+	if (!(!chart.data)) {
+		html += `<div class="index-data-chart py-8">
+			<div class="index-chart-header w-full responsive flex flex-row">
+				<h2 class="mx-auto bebas text-4xl py-3">${chart.name}</h2>
+				<a href="${chart.url}" class="absolute edge-red font-semibold">See All</a>
+			</div>
+			<div class="index-chart-content">
+				<ul class="w-full gap-y-2">
+					<li class="bebas text-xl grid grid-cols-12">`;
+
+					headings.forEach((heading) => {
+						html += `<div class="bg-gray-200 col-span-${heading.span} grid items-center">${heading.name}</div>`;
+					});
+					
+					html += `</li>`;
+					if (LIMIT > chart.data.length) {
+						LIMIT = chart.data.length;
+					}
+
+				for (var i = 0; i < LIMIT; i++) {
+					var li = chart.data[i];
+					var _date_approved = li.DateApproved;
+
+					const day = new Date(_date_approved.substring(0, 10)).getDate();
+					const month = new Date(_date_approved.substring(0, 10)).getMonth();
+					const year = new Date(_date_approved.substring(0, 10)).getFullYear();
+
+					if (isNaN(day) || isNaN(month) || isNaN(year)) {
+						console.log(li);
+						continue;
+					}
+
+					var _company_name = li.CompanyName;
+
+					var _total_jobs = li.TotalJobs ? li.TotalJobs : li.ProjectedTotalJobs;
+					if (!_total_jobs) { _total_jobs = li.ProjectedTotalJobs; }
+					if (!_total_jobs) { _total_jobs = parseInt(li.ProjectedNewJobs) + parseInt(li.ProjectedRetainedJobs); }
+
+					var _projected_investment = li.TotalCapitalInvestment ? li.TotalCapitalInvestment : li.ProjectedTotalInvestment;
+					if (!_projected_investment) { _projected_investment = li.TotalInvestment; }
+					if (!_projected_investment) { _projected_investment = li.TotalProjectedCapitalInvestment; }
+
+					var _projected_mwbe_losb_spending = parseInt(li.MWBE_LOSBSpendingConstruction) + parseInt(li.MWBE_LOSBSpendingOperations);
+					var _projected_benefit_to_cost_ratio = li.CostRatio ? li.CostRatio : li.BenefitCostRatio;
+					var _tif_amount = li.TIFAmount;
+					var _loan_type = li.LoanType;
+					var _loan_amount = li.LoanAmount;
+					var _bond_amount = li.BondAmount;
+					var _financing_amount = li.FinancingAmount;
+
+					
+					var category = "pilot";
+					const URL = `${SITE_URL}/${category}/`;
+
+					bg_color = "bg-gray-200";
+					if (i % 2 == 0){ bg_color = "bg-gray-100"; }
+					html += `<li class="grid grid-cols-12">
+						<div class="${bg_color} col-span-${headings[0].span}">${months[month].substring(0, 3)} ${day}, ${year}</div>
+						<div class="${bg_color} col-span-${headings[1].span}"><a class="edge-red" href="${URL + li.Id}">${_company_name}</a></div>
+						<div class="${bg_color} col-span-${headings[2].span}">${_total_jobs}</div>
+						<div class="${bg_color} col-span-${headings[3].span}">${formatter.format(parseInt(_projected_investment))}</div>`;
+					
+					if(chart.name == 'Pilot Data'){
+						html += `<div class="${bg_color} col-span-2">${formatter.format(parseInt(_projected_mwbe_losb_spending))}</div>
+						<div class="${bg_color} col-span-2">${_projected_benefit_to_cost_ratio}</div>
+						`;
+					}
+
+					if(chart.name == 'TIF Data'){
+						html += `<div class="${bg_color} col-span-2">${formatter.format(parseInt(_tif_amount))}</div>`;
+					}
+
+					if(chart.name == 'Loan Data'){
+						html += `<div class="${bg_color} col-span-2">${_loan_type}</div>
+						<div class="${bg_color} col-span-2">${formatter.format(parseInt(_loan_amount))}</div>
+						`;
+					}
+
+					if(chart.name == 'Bond Data'){
+						html += `<div class="${bg_color} col-span-2">${formatter.format(parseInt(_bond_amount))}</div>`;
+					}
+
+					if(chart.name == 'Other Data'){
+						html += `<div class="${bg_color} col-span-2">${formatter.format(parseInt(_financing_amount))}</div>`;
+					}
+
+					html += `</li>`;
+				}
+
+				if(chart.name == 'Other Data' && chart.data.length > LIMIT){
+					if ( bg_color == 'bg-gray-200' ){ bg_color = 'bg-gray-100'; }
+					html += `<li class="${bg_color} grid grid-cols-12">
+						<div class="col-span-9">FTZ-77 Total Value of Shipments</div>
+						<div class="col-span-3">${formatter.format(ftz)}</div>
+					</li>`;
+					if ( bg_color == 'bg-gray-100' ){ bg_color = 'bg-gray-200'; }
+					html += `<li class="${bg_color} grid grid-cols-12">
+						<div class="col-span-9">Total NEED Grants</div>
+						<div class="col-span-3">${number_of_grants}</div>
+					</li>`;
+				}
+				html +=	` <ul>
+			</div>
+		</div>`;
+	} else {
+		html += `<div class="grid grid-cols-12">
+			<div class="col-span-12">
+				<ul class="grid grid-cols-12">
+					<li class="grid grid-cols-12">
+						<div class="col-span-12">No data available</div>
+					</li>
+				</ul>
+			</div>
+		</div>`;
+	}
+}
 
 var html = '';
-charts.forEach((chart) => {
-	const LIMIT = 5;
 
+charts.forEach((chart) => {
 	var headings = [
 		{ name: 'Date Approved', span: 2 },
 		{ name: 'Company Name', span: 3 },
@@ -93,118 +217,127 @@ charts.forEach((chart) => {
 		headings[2].span = 2;
 	}
 
-	
 
 	var bg_color = "bg-gray-200";
 
-	html += `<div class="index-data-chart py-8">
-		<div class="index-chart-header w-full responsive flex flex-row">
-			<h2 class="mx-auto bebas text-4xl py-3">${chart.name}</h2>
-			<a href="${chart.url}" class="absolute edge-red font-semibold">See All</a>
-		</div>
-		<div class="index-chart-content">
-			<ul class="w-full gap-y-2">
-				<li class="bebas font-semibold text-xl grid grid-cols-12">`;
-
-				headings.forEach((heading) => {
-					html += `<div class="bg-gray-200 col-span-${heading.span} grid items-center">${heading.name}</div>`;
-				});
-				
-				html += `</li>`;
-
-			for (var i = 0; i < LIMIT; i++) {
-				var li = chart.data[i];
-
-				var _date_approved = li.date_approved ? li.date_approved : li.ApprovedDate;
-
-				const day = new Date(_date_approved.substring(0, 10)).getDate();
-				const month = new Date(_date_approved.substring(0, 10)).getMonth();
-				const year = new Date(_date_approved.substring(0, 10)).getFullYear();
-
-				var _company_name = li.company_name ? li.company_name : li.CompanyName;
-
-				var _total_jobs = li.total_jobs ? li.total_jobs : li.ProjectedTotalJobs;
-				if (!_total_jobs) { _total_jobs = li.projected_new_jobs; }
-
-				var _projected_investment = li.projected_investment ? li.projected_investment : li.total_projected_capital_investment;
-				if (!_projected_investment) { _projected_investment = li.TotalInvestment; }
-
-				var _projected_mwbe_losb_spending = li.projected_spending;
-				var _projected_benefit_to_cost_ratio = li.benefit_cost_ratio;
-				var _tif_amount = li.TIFAmount;
-				var _loan_type = li.loan_type;
-				var _loan_amount = li.loan_amount;
-				var _bond_amount = li.BondAmount;
-				var _financing_amount = li.FinancingAmount;
-
-				
-				var category = "pilot";
-				const URL = `http://localhost:10005/${category}/`;
-
-				bg_color = "bg-gray-200";
-				if (i % 2 == 0){ bg_color = "bg-gray-100"; }
-				html += `<li class="grid grid-cols-12">
-					<div class="${bg_color} col-span-${headings[0].span}">${months[month].substring(0, 3)} ${day}, ${year}</div>
-					<div class="${bg_color} col-span-${headings[1].span}"><a class="edge-red" href="${URL + i}">${_company_name}</a></div>
-					<div class="${bg_color} col-span-${headings[2].span}">${_total_jobs}</div>
-					<div class="${bg_color} col-span-${headings[3].span}">${_projected_investment}</div>`;
-				
-				if(chart.name == 'Pilot Data'){
-					html += `<div class="${bg_color} col-span-2">${_projected_mwbe_losb_spending}</div>
-					<div class="${bg_color} col-span-2">${_projected_benefit_to_cost_ratio}</div>
-					`;
-				}
-
-				if(chart.name == 'TIF Data'){
-					html += `<div class="${bg_color} col-span-2">${_tif_amount}</div>`;
-				}
-
-				if(chart.name == 'Loan Data'){
-					html += `<div class="${bg_color} col-span-2">${_loan_type}</div>
-					<div class="${bg_color} col-span-2">${_loan_amount}</div>
-					`;
-				}
-
-				if(chart.name == 'Bond Data'){
-					html += `<div class="${bg_color} col-span-2">${_bond_amount}</div>`;
-				}
-
-				if(chart.name == 'Other Data'){
-					html += `<div class="${bg_color} col-span-2">${_financing_amount}</div>`;
-				}
-
-				html += `</li>`;
-			}
-
-			if(chart.name == 'Other Data'){
-				if ( bg_color == 'bg-gray-200' ){ bg_color = 'bg-gray-100'; }
-				html += `<li class="${bg_color} grid grid-cols-12">
-					<div class="col-span-9">FTZ-77 Total Value of Shipments</div>
-					<div class="col-span-3">${formatter.format(ftz)}</div>
-				</li>`;
-				if ( bg_color == 'bg-gray-100' ){ bg_color = 'bg-gray-200'; }
-				html += `<li class="${bg_color} grid grid-cols-12">
-					<div class="col-span-9">Total NEED Grants</div>
-					<div class="col-span-3">${number_of_grants}</div>
-				</li>`;
-			}
-			html +=	` <ul>
-		</div>
-	</div>`;
+	setHTML(chart, headings);
 });
 
 $(document).ready(() => {
-
 	$('#index-data-container').html(html);
 });
 
+$("#search-button").click(function(){
+    
+	var _temp_pilots_list= [];
+	var _temp_tif_list= [];
+	var _temp_loan_list= [];
+	var _temp_bond_list= [];
+	var _temp_other_list= [];
+
+	for (p in pilots){
+		if (pilots[p].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+			_temp_pilots_list.push(pilots[p]);
+		}
+	}
+
+	for (t in tifs){
+		if (tifs[t].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+			_temp_tif_list.push(tifs[t]);
+		}
+	}
+
+	for (l in loans){
+		if (loans[l].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+			_temp_loan_list.push(loans[l]);
+		}
+	}
+
+	for (b in bonds){
+		if (bonds[b].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+			_temp_bond_list.push(bonds[b]);
+		}
+	}
+
+	for (o in others){
+		if (others[o].CompanyName.toLowerCase().includes($("#name-search").val().toLowerCase())){
+			_temp_other_list.push(others[o]);
+		}
+	}
+
+	others_chart.data = sortByDate(_temp_other_list);
+	pilot_chart.data = sortByDate(_temp_pilots_list);
+	tifs_chart.data = sortByDate(_temp_tif_list);
+	loans_chart.data = sortByDate(_temp_loan_list);
+	bonds_chart.data = sortByDate(_temp_bond_list);
+
+	charts = [pilot_chart, tifs_chart, loans_chart, bonds_chart, others_chart];
+	html = '';
+
+	for (c in charts) {
+		var chart = charts[c];
+		if (chart.data.length > 0) { 
+			var headings = [
+				{ name: 'Date Approved', span: 2 },
+				{ name: 'Company Name', span: 3 },
+				{ name: 'Total Jobs', span: 1 },
+				{ name: 'Projected Investment', span: 2 },
+			];
+
+			if(chart.name == 'Pilot Data'){
+				headings.push(
+					{ name: 'Projected MWBE/LOSB Spending', span: 2 },
+					{ name: 'Projected Benefit to Cost Ratio', span: 2 },
+				);
+			}
+
+			if(chart.name == 'TIF Data'){
+				headings.push(
+					{ name: 'TIF Amount', span: 2 }
+				);
+				headings[1].span = 4;
+				headings[2].span = 2;
+			}
+
+			if(chart.name == 'Loan Data'){
+				headings.push(
+					{ name: 'Loan Type', span: 2 },
+					{ name: 'Loan Amount', span: 2 },
+				);
+			}
+
+			if(chart.name == 'Bond Data'){
+				headings.push(
+					{ name: 'Bond Amount', span: 2 },
+				);
+				headings[1].span = 4;
+				headings[2].span = 2;
+			}
+
+			if(chart.name == 'Other Data'){
+				headings.push(
+					{ name: 'Financing Amount', span: 2 },
+				);
+				headings[1].span = 4;
+				headings[2].span = 2;
+			}
+
+
+			var bg_color = "bg-gray-200";
+
+			setHTML(chart, headings, true);
+		}
+	}
+	$('#index-data-container').html(html);
+
+    if ($(window).scrollTop() < 1550 && $("#name-search").val() != "") {
+        $("html").animate({scrollTop: 1550}, 400);
+    }
+});
 
 </script>
 
 <div class="edge-wrapper relative">
-	<div class="py-8">
-		<input class="w-full py-2 px-4 bebas text-lg" placeholder="Search Company Name" type="text" />
-	</div>
 	<div id="index-data-container">
 		Loading...
 	</div>
