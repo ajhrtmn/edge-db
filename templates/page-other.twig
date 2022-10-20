@@ -80,7 +80,7 @@
 			<h1>
 
 			<div class="w-10/12 mx-auto p-12 bg-white shadow-lg">
-				${decodeURI(other.ProjectDescription)).replace(/(?:\r\n|\r|\n)/g, '<br>')}
+				${unescape(other.ProjectDescription).replace(/(?:\r\n|\r|\n)/g, '<br>')}
 			</div>
 		</div>
 	</div>`;

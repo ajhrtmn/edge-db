@@ -80,7 +80,7 @@
 			<h1>
 
 			<div class="w-10/12 mx-auto p-12 bg-white shadow-lg">
-				${decodeURI(loan.ProjectDescription)).replace(/(?:\r\n|\r|\n)/g, '<br>')}
+				${unescape(loan.ProjectDescription).replace(/(?:\r\n|\r|\n)/g, '<br>')}
 			</div>
 
 			<h1 class="mt-16 mb-8 flex gap-6 flex items-center sm-hdr">
